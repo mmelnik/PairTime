@@ -1,3 +1,9 @@
+# IDE configs
+nbproject
+.idea
+*.ipr
+*.iml
+
 # Compiled class file
 *.class
 
