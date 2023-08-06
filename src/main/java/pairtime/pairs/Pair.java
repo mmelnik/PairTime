@@ -14,6 +14,13 @@ public class Pair {
     return List.of(driver, navigator);
   }
 
+  public boolean contains(String person) {
+    if (person == null) {
+      return false;
+    }
+    return driver.equals(person) || navigator.equals(person);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
