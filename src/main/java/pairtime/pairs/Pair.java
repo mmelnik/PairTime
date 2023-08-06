@@ -31,6 +31,11 @@ public class Pair {
   }
 
   @Override
+  public int hashCode() {
+    return driver.hashCode() + navigator.hashCode();
+  }
+
+  @Override
   public String toString() {
     return "Pair: " + driver + ", " + navigator;
   }
