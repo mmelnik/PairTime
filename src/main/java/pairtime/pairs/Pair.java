@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Pair<T> {
 
-  private final T firstElement;
-  private final T secondElement;
+  private final T driver;
+  private final T navigator;
 
-  public Pair(T firstElement, T secondElement) {
-    this.firstElement = firstElement;
-    this.secondElement = secondElement;
+  public Pair(T driver, T navigator) {
+    this.driver = driver;
+    this.navigator = navigator;
   }
 
   @Override
@@ -22,18 +22,18 @@ public class Pair<T> {
     }
 
     Pair<?> that = (Pair<?>) o;
-    return (this.firstElement.equals(that.firstElement)
-        && this.secondElement.equals(that.secondElement))
-        || (this.firstElement.equals(that.secondElement)
-        && this.secondElement.equals(that.firstElement));
+    return (this.driver.equals(that.driver)
+        && this.navigator.equals(that.navigator))
+        || (this.driver.equals(that.navigator)
+        && this.navigator.equals(that.driver));
   }
 
   public List<T> getParticipants() {
-    return List.of(firstElement, secondElement);
+    return List.of(driver, navigator);
   }
 
   @Override
   public String toString() {
-    return "Pair: " + firstElement + ", " + secondElement;
+    return "Pair: " + driver + ", " + navigator;
   }
 }
