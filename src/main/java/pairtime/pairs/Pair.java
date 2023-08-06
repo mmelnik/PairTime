@@ -10,6 +10,10 @@ public class Pair {
   private final String driver;
   private final String navigator;
 
+  public List<String> getPeople() {
+    return List.of(driver, navigator);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -24,10 +28,6 @@ public class Pair {
         && this.navigator.equals(that.navigator))
         || (this.driver.equals(that.navigator)
         && this.navigator.equals(that.driver));
-  }
-
-  public List<String> getParticipants() {
-    return List.of(driver, navigator);
   }
 
   @Override

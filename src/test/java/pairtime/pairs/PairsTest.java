@@ -84,7 +84,7 @@ public class PairsTest {
     List<Pair> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша")).generate();
 
     List<String> participants = pairs.stream()
-        .flatMap(pair -> pair.getParticipants().stream())
+        .flatMap(pair -> pair.getPeople().stream())
         .collect(toList());
 
     assertAll(
