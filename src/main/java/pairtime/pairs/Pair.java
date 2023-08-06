@@ -2,15 +2,13 @@ package pairtime.pairs;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class Pair {
 
   private final String driver;
   private final String navigator;
-
-  public Pair(String driver, String navigator) {
-    this.driver = driver;
-    this.navigator = navigator;
-  }
 
   @Override
   public boolean equals(Object o) {
