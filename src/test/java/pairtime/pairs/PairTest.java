@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class PairTest {
 
   @Test
-  void pairShouldBePrintecCorrectly() {
-    assertThat(new Pair<>("Вася", "Петя").toString()).isEqualTo("Pair: Вася, Петя");
+  void pairShouldBePrintedCorrectly() {
+    assertThat(new Pair("Вася", "Петя").toString()).isEqualTo("Pair: Вася, Петя");
   }
 }
