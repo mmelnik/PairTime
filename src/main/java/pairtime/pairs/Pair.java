@@ -2,12 +2,12 @@ package pairtime.pairs;
 
 import java.util.List;
 
-public class Pair<T> {
+public class Pair {
 
-  private final T driver;
-  private final T navigator;
+  private final String driver;
+  private final String navigator;
 
-  public Pair(T driver, T navigator) {
+  public Pair(String driver, String navigator) {
     this.driver = driver;
     this.navigator = navigator;
   }
@@ -21,14 +21,14 @@ public class Pair<T> {
       return false;
     }
 
-    Pair<?> that = (Pair<?>) o;
+    Pair that = (Pair) o;
     return (this.driver.equals(that.driver)
         && this.navigator.equals(that.navigator))
         || (this.driver.equals(that.navigator)
         && this.navigator.equals(that.driver));
   }
 
-  public List<T> getParticipants() {
+  public List<String> getParticipants() {
     return List.of(driver, navigator);
   }
 

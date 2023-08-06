@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Pairs {
 
-  private List<Pair<String>> excludedPairs;
+  private List<Pair> excludedPairs;
   private List<String> people;
   private Random random;
 
@@ -23,7 +23,7 @@ public class Pairs {
     return new Pairs(people);
   }
 
-  public Pairs excludePairs(List<Pair<String>> pairsToExclude) {
+  public Pairs excludePairs(List<Pair> pairsToExclude) {
     this.excludedPairs = new ArrayList<>(pairsToExclude);
     return this;
   }
@@ -33,15 +33,15 @@ public class Pairs {
     return this;
   }
 
-  public List<Pair<String>> generate() {
-    List<Pair<String>> pairs = new ArrayList<>();
+  public List<Pair> generate() {
+    List<Pair> pairs = new ArrayList<>();
 
     while (people.size() > 1) {
       String driver = people.remove(random.nextInt(people.size()));
       findNewCompanionFor(driver)
           .ifPresent(navigator -> {
             people.remove(navigator);
-            pairs.add(new Pair<>(driver, navigator));
+            pairs.add(new Pair(driver, navigator));
           });
     }
     return pairs;
@@ -51,7 +51,7 @@ public class Pairs {
     List<String> candidates = new ArrayList<>(people);
     while (!candidates.isEmpty()) {
       String secondPerson = candidates.remove(random.nextInt(candidates.size()));
-      if (!excludedPairs.contains(new Pair<>(firstPerson, secondPerson))) {
+      if (!excludedPairs.contains(new Pair(firstPerson, secondPerson))) {
         return Optional.of(secondPerson);
       }
     }

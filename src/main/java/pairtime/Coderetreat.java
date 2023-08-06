@@ -12,9 +12,9 @@ import pairtime.pairs.Pairs;
 public class Coderetreat {
 
   private List<String> people;
-  private List<Pair<String>> pairsToExclude = new ArrayList<>();
+  private List<Pair> pairsToExclude = new ArrayList<>();
   @Getter
-  private List<Pair<String>> currentRoundPairs = emptyList();
+  private List<Pair> currentRoundPairs = emptyList();
   private Random random;
 
   public Coderetreat(List<String> people) {
@@ -26,16 +26,16 @@ public class Coderetreat {
     this.random = random;
   }
 
-  public List<Pair<String>> buildNewRoundPairs() {
+  public List<Pair> buildNewRoundPairs() {
     pairsToExclude.addAll(currentRoundPairs);
     return makePairs();
   }
 
-  public List<Pair<String>> shufflePairs() {
+  public List<Pair> shufflePairs() {
     return currentRoundPairs.isEmpty() ? emptyList() : makePairs();
   }
 
-  private List<Pair<String>> makePairs() {
+  private List<Pair> makePairs() {
     currentRoundPairs = Pairs.of(people)
         .excludePairs(pairsToExclude)
         .withRandom(random)

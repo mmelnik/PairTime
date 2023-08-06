@@ -14,55 +14,55 @@ public class PairsTest {
 
   @Test
   void noPairsAreCreatedFromZeroPeople() {
-    List<Pair<String>> pairs = Pairs.of(List.of()).generate();
+    List<Pair> pairs = Pairs.of(List.of()).generate();
     assertThat(pairs.isEmpty()).isTrue();
   }
 
   @Test
   void noPairsAreCreatedFromOnePeople() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася")).generate();
+    List<Pair> pairs = Pairs.of(List.of("Вася")).generate();
     assertThat(pairs.isEmpty()).isTrue();
   }
 
   @Test
   void onePairIsCreatedFromTwoPeople() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя")).generate();
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя")).generate();
     assertThat(pairs.size()).isEqualTo(1);
-    assertThat(pairs.get(0)).isEqualTo(new Pair<>("Вася", "Петя"));
-    assertThat(pairs.get(0)).isEqualTo(new Pair<>("Петя", "Вася"));
+    assertThat(pairs.get(0)).isEqualTo(new Pair("Вася", "Петя"));
+    assertThat(pairs.get(0)).isEqualTo(new Pair("Петя", "Вася"));
   }
 
   @Test
   void createdPairsShouldConsistOfSamePerson() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя")).generate();
-    assertThat(pairs.get(0)).isNotEqualTo(new Pair<>("Вася", "Вася"));
-    assertThat(pairs.get(0)).isNotEqualTo(new Pair<>("Петя", "Петя"));
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя")).generate();
+    assertThat(pairs.get(0)).isNotEqualTo(new Pair("Вася", "Вася"));
+    assertThat(pairs.get(0)).isNotEqualTo(new Pair("Петя", "Петя"));
   }
 
   @Test
   void twoPairsAreCreatedFromFourPeople() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша")).generate();
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша")).generate();
     assertThat(pairs.size()).isEqualTo(2);
   }
 
   @Test
   void pairsCreatedFromFourPeopleAreNotEqual() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша")).generate();
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша")).generate();
     assertThat(pairs.get(0)).isNotEqualTo(pairs.get(1));
   }
 
   @Test
   void pairsFromMoreThatTwoPeopleAreCreatedUsingRandom() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша"))
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша"))
         .withRandom(FAKE_RANDOM)
         .generate();
-    assertThat(pairs.get(0)).isNotEqualTo(new Pair<>("Вася", "Петя"));
+    assertThat(pairs.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }
 
   @Test
   void pairIsNotCreatedIfItWasInExcludeList() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя"))
-        .excludePairs(List.of(new Pair<>("Вася", "Петя")))
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя"))
+        .excludePairs(List.of(new Pair("Вася", "Петя")))
         .generate();
 
     assertThat(pairs.size()).isEqualTo(0);
@@ -70,18 +70,18 @@ public class PairsTest {
 
   @Test
   void pair_Петя_Вася_IsCreatedOnly_as_Вася_Жора_pairIsExcluded() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя", "Жора"))
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя", "Жора"))
         .excludePairs(List.of(
-            new Pair<>("Вася", "Жора"),
-            new Pair<>("Петя", "Жора")
+            new Pair("Вася", "Жора"),
+            new Pair("Петя", "Жора")
         )).generate();
     assertThat(pairs.size()).isEqualTo(1);
-    assertThat(pairs.get(0)).isEqualTo(new Pair<>("Петя", "Вася"));
+    assertThat(pairs.get(0)).isEqualTo(new Pair("Петя", "Вася"));
   }
 
   @Test
   void builtPairsShouldNotIncludeSamePersonTwice() {
-    List<Pair<String>> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша")).generate();
+    List<Pair> pairs = Pairs.of(List.of("Вася", "Петя", "Жора", "Саша")).generate();
 
     List<String> participants = pairs.stream()
         .flatMap(pair -> pair.getParticipants().stream())

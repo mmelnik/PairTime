@@ -31,14 +31,14 @@ public class CoderetreatTest {
 
   @Test
   void shouldBeTwoPairsForNextRoundOfFourPeople() {
-    List<Pair<String>> pairs = coderetreat.buildNewRoundPairs();
+    List<Pair> pairs = coderetreat.buildNewRoundPairs();
     assertThat(pairs.size()).isEqualTo(2);
   }
 
   @Test
   void shufflingPairsShouldReturnSamePairsNumber() {
-    List<Pair<String>> original = coderetreat.buildNewRoundPairs();
-    List<Pair<String>> shuffled = coderetreat.shufflePairs();
+    List<Pair> original = coderetreat.buildNewRoundPairs();
+    List<Pair> shuffled = coderetreat.shufflePairs();
     assertThat(shuffled.size()).isEqualTo(original.size());
   }
 
@@ -46,8 +46,8 @@ public class CoderetreatTest {
   void shufflingCanReturnNewPairs() {
     Random fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
-    List<Pair<String>> original = coderetreat.buildNewRoundPairs();
-    List<Pair<String>> shuffled = coderetreat.shufflePairs();
+    List<Pair> original = coderetreat.buildNewRoundPairs();
+    List<Pair> shuffled = coderetreat.shufflePairs();
 
     assertContainsNone(original, shuffled);
   }
@@ -56,27 +56,27 @@ public class CoderetreatTest {
   void shufflingCanReturnSamePairs() {
     Random fakeRandom = new Random(900);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
-    List<Pair<String>> original = coderetreat.buildNewRoundPairs();
-    List<Pair<String>> shuffled = coderetreat.shufflePairs();
+    List<Pair> original = coderetreat.buildNewRoundPairs();
+    List<Pair> shuffled = coderetreat.shufflePairs();
 
     assertContainsAny(original, shuffled);
   }
 
-  private ListAssert assertContainsAny(List<Pair<String>> original, List<Pair<String>> shuffled) {
+  private ListAssert assertContainsAny(List<Pair> original, List<Pair> shuffled) {
     return assertThat(original).containsAnyOf(shuffled.toArray(Pair[]::new));
   }
 
   @Test
   void pairsInNextRoundsShouldNotContainPairsFromPrevious() {
-    List<Pair<String>> previous = new ArrayList<>();
-    List<Pair<String>> next;
+    List<Pair> previous = new ArrayList<>();
+    List<Pair> next;
     while (!(next = coderetreat.buildNewRoundPairs()).isEmpty()) {
       assertContainsNone(previous, next);
       previous.addAll(next);
     }
   }
 
-  private ListAssert assertContainsNone(List<Pair<String>> previous, List<Pair<String>> next) {
+  private ListAssert assertContainsNone(List<Pair> previous, List<Pair> next) {
     return assertThat(previous).doesNotContain(next.toArray(Pair[]::new));
   }
 
