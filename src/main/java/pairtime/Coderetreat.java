@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import lombok.Getter;
 import pairtime.pairs.Pair;
-import pairtime.pairs.Pairs;
+import pairtime.pairs.People;
 
 public class Coderetreat {
 
@@ -36,7 +36,7 @@ public class Coderetreat {
   }
 
   private List<Pair> makePairs() {
-    currentRoundPairs = Pairs.of(people)
+    currentRoundPairs = People.of(people)
         .excludePairs(pairsToExclude)
         .withRandom(random)
         .generate();

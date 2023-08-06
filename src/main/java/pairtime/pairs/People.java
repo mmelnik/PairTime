@@ -7,28 +7,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class Pairs {
+public class People {
 
-  private List<Pair> excludedPairs;
-  private List<String> people;
   private Random random;
+  private List<String> value;
+  private List<Pair> excludedPairs;
 
-  public Pairs(List<String> people) {
-    this.people = new ArrayList<>(people);
+  public People(List<String> people) {
+    this.value = new ArrayList<>(people);
     excludedPairs = emptyList();
     random = new Random();
   }
 
-  public static Pairs of(List<String> people) {
-    return new Pairs(people);
+  public static People of(List<String> people) {
+    return new People(people);
   }
 
-  public Pairs excludePairs(List<Pair> pairsToExclude) {
+  public People excludePairs(List<Pair> pairsToExclude) {
     this.excludedPairs = new ArrayList<>(pairsToExclude);
     return this;
   }
 
-  public Pairs withRandom(Random random) {
+  public People withRandom(Random random) {
     this.random = random;
     return this;
   }
@@ -36,11 +36,11 @@ public class Pairs {
   public List<Pair> generate() {
     List<Pair> pairs = new ArrayList<>();
 
-    while (people.size() > 1) {
-      String driver = people.remove(random.nextInt(people.size()));
+    while (value.size() > 1) {
+      String driver = value.remove(random.nextInt(value.size()));
       findNewCompanionFor(driver)
           .ifPresent(navigator -> {
-            people.remove(navigator);
+            value.remove(navigator);
             pairs.add(new Pair(driver, navigator));
           });
     }
@@ -48,7 +48,7 @@ public class Pairs {
   }
 
   private Optional<String> findNewCompanionFor(String firstPerson) {
-    List<String> candidates = new ArrayList<>(people);
+    List<String> candidates = new ArrayList<>(value);
     while (!candidates.isEmpty()) {
       String secondPerson = candidates.remove(random.nextInt(candidates.size()));
       if (!excludedPairs.contains(new Pair(firstPerson, secondPerson))) {
