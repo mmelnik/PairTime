@@ -79,6 +79,16 @@ public class PeopleTest {
   }
 
   @Test
+  void twoPairsAreCreatedFromFourPeople_Вася_Саша_pairIsExcluded() {
+    List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
+        .generatePairsExcluding(List.of(new Pair("Вася", "Саша")));
+
+    assertThat(people)
+        .hasSize(2)
+        .doesNotContain(new Pair("Вася", "Саша"));
+  }
+
+  @Test
   void builtPairsShouldNotIncludeSamePersonTwice() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша")).generatePairs();
 
