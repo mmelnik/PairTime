@@ -33,7 +33,7 @@ public class People {
 
     while (value.size() > 1) {
       String driver = value.remove(random.nextInt(value.size()));
-      findNavigatorFor(driver)
+      findNavigatorFor(driver, value, excludedPairs)
           .ifPresent(navigator -> {
             value.remove(navigator);
             pairs.add(new Pair(driver, navigator));
@@ -42,8 +42,9 @@ public class People {
     return pairs;
   }
 
-  private Optional<String> findNavigatorFor(String driver) {
-    List<String> candidates = new ArrayList<>(value);
+  private Optional<String> findNavigatorFor(String driver, List<String> people,
+      List<Pair> excludedPairs) {
+    List<String> candidates = new ArrayList<>(people);
     while (!candidates.isEmpty()) {
       String navigator = candidates.remove(random.nextInt(candidates.size()));
       if (!excludedPairs.contains(new Pair(driver, navigator))) {
