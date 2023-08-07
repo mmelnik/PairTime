@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import pairtime.pairs.Pair;
 import pairtime.pairs.People;
@@ -18,6 +19,9 @@ public class Coderetreat {
   @Getter
   private List<Pair> currentRoundPairs = emptyList();
   private Random random;
+
+  @Getter @Setter
+  private boolean doNotRepeatPairs = true;
 
   public Coderetreat(List<String> people) {
     this(people, new Random());
@@ -38,8 +42,11 @@ public class Coderetreat {
   }
 
   private List<Pair> makePairs() {
-    currentRoundPairs = new People(people, random)
-        .makePairsExcluding(pairsToExclude);
+    if (doNotRepeatPairs) {
+      currentRoundPairs = new People(people, random).makePairsExcluding(pairsToExclude);
+    } else {
+      currentRoundPairs = new People(people, random).makePairs();
+    }
     return currentRoundPairs;
   }
 

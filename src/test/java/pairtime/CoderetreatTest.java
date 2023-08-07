@@ -57,6 +57,7 @@ class CoderetreatTest {
   void shufflingCanReturnSamePairs() {
     Random fakeRandom = new Random(900);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
+    coderetreat.setDoNotRepeatPairs(false);
     List<Pair> original = coderetreat.buildNewRoundPairs();
     List<Pair> shuffled = coderetreat.shufflePairs();
 
