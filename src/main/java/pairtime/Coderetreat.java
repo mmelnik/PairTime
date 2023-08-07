@@ -18,8 +18,8 @@ import pairtime.pairs.Round;
 
 public class Coderetreat {
 
-  private People people;
-  private Deque<Round> rounds = new ArrayDeque<>();
+  private final Deque<Round> rounds = new ArrayDeque<>();
+  private final People people;
 
   @Getter @Setter
   private boolean doNotRepeatPairs = true;
