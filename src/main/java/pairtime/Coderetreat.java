@@ -38,7 +38,7 @@ public class Coderetreat {
     return rounds.getLast().getPairs();
   }
 
-  public List<Pair> shufflePairs() {
+  public List<Pair> reRollRound() {
     if (!rounds.isEmpty()) {
       rounds.removeLast();
     }

@@ -32,36 +32,36 @@ class CoderetreatTest {
   }
 
   @Test
-  void shufflingPairsForNewCoderetreatShouldReturnNewPairs() {
-    assertThat(coderetreat.shufflePairs()).hasSize(2);
+  void roundRerollForNewCoderetreatShouldReturnNewPairs() {
+    assertThat(coderetreat.reRollRound()).hasSize(2);
   }
 
   @Test
-  void shufflingPairsShouldReturnSamePairsNumber() {
+  void roundRerollShouldReturnSamePairsNumber() {
     List<Pair> original = coderetreat.buildNewRoundPairs();
-    List<Pair> shuffled = coderetreat.shufflePairs();
-    assertThat(shuffled.size()).isEqualTo(original.size());
+    List<Pair> rerolled = coderetreat.reRollRound();
+    assertThat(rerolled.size()).isEqualTo(original.size());
   }
 
   @Test
-  void shufflingCanReturnNewPairs() {
+  void roundRerollCanReturnNewPairs() {
     Random fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     List<Pair> original = coderetreat.buildNewRoundPairs();
-    List<Pair> shuffled = coderetreat.shufflePairs();
+    List<Pair> rerolled = coderetreat.reRollRound();
 
-    assertContainsNone(original, shuffled);
+    assertContainsNone(original, rerolled);
   }
 
   @Test
-  void shufflingCanReturnSamePairs() {
+  void roundRerollCanReturnSamePairs() {
     Random fakeRandom = new Random(900);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     coderetreat.setDoNotRepeatPairs(false);
     List<Pair> original = coderetreat.buildNewRoundPairs();
-    List<Pair> shuffled = coderetreat.shufflePairs();
+    List<Pair> rerolled = coderetreat.reRollRound();
 
-    assertContainsAny(original, shuffled);
+    assertContainsAny(original, rerolled);
   }
 
   @Test
