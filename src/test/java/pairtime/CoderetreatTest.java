@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -86,11 +85,11 @@ class CoderetreatTest {
     );
   }
 
-  private ListAssert assertContainsAny(List<Pair> original, List<Pair> shuffled) {
-    return assertThat(original).containsAnyOf(shuffled.toArray(Pair[]::new));
+  private void assertContainsAny(List<Pair> original, List<Pair> shuffled) {
+    assertThat(original).containsAnyOf(shuffled.toArray(Pair[]::new));
   }
 
-  private ListAssert assertContainsNone(List<Pair> previous, List<Pair> next) {
-    return assertThat(previous).doesNotContain(next.toArray(Pair[]::new));
+  private void assertContainsNone(List<Pair> previous, List<Pair> next) {
+    assertThat(previous).doesNotContain(next.toArray(Pair[]::new));
   }
 }
