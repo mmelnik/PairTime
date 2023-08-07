@@ -28,7 +28,7 @@ class CoderetreatTest {
   @Test
   void shouldBeTwoPairsForNextRoundOfFourPeople() {
     List<Pair> pairs = coderetreat.nextRound().getPairs();
-    assertThat(pairs.size()).isEqualTo(2);
+    assertThat(pairs).hasSize(2);
   }
 
   @Test
@@ -40,7 +40,7 @@ class CoderetreatTest {
   void roundRerollShouldReturnSamePairsNumber() {
     List<Pair> original = coderetreat.nextRound().getPairs();
     List<Pair> rerolled = coderetreat.reRollRound().getPairs();
-    assertThat(rerolled.size()).isEqualTo(original.size());
+    assertThat(rerolled).hasSize(original.size());
   }
 
   @Test
