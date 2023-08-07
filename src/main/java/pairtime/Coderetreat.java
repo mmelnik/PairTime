@@ -3,10 +3,11 @@ package pairtime;
 import static java.util.Collections.emptyList;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,6 @@ public class Coderetreat {
 
   private People people;
   private Deque<Round> rounds = new ArrayDeque<>();
-  private List<Pair> pairsToExclude = new ArrayList<>();
 
   @Getter @Setter
   private boolean doNotRepeatPairs = true;
@@ -33,7 +33,6 @@ public class Coderetreat {
   }
 
   public List<Pair> buildNewRoundPairs() {
-    pairsToExclude.addAll(rounds.isEmpty() ? emptyList() : rounds.getLast().getPairs());
     rounds.add(new Round(rounds.size() + 1, makePairs()));
     return rounds.getLast().getPairs();
   }
@@ -42,15 +41,21 @@ public class Coderetreat {
     if (!rounds.isEmpty()) {
       rounds.removeLast();
     }
-    rounds.add(new Round(rounds.size() + 1, makePairs()));
-    return rounds.getLast().getPairs();
+    return buildNewRoundPairs();
   }
 
   private List<Pair> makePairs() {
     if (doNotRepeatPairs) {
-      return people.makePairsExcluding(pairsToExclude);
+      return people.makePairsExcluding(pairsFromPreviousRounds());
     }
     return people.makePairs();
+  }
+
+  private List<Pair> pairsFromPreviousRounds() {
+    return rounds.stream()
+        .map(Round::getPairs)
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
   }
 
   public List<Pair> getCurrentRoundPairs() {
