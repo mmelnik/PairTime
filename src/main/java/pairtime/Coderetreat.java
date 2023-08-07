@@ -32,7 +32,7 @@ public class Coderetreat {
     this.people = new People(people, random);
   }
 
-  public List<Pair> buildNewRoundPairs() {
+  public List<Pair> nextRound() {
     rounds.add(new Round(rounds.size() + 1, makePairs()));
     return rounds.getLast().getPairs();
   }
@@ -41,7 +41,7 @@ public class Coderetreat {
     if (!rounds.isEmpty()) {
       rounds.removeLast();
     }
-    return buildNewRoundPairs();
+    return nextRound();
   }
 
   private List<Pair> makePairs() {

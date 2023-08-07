@@ -27,7 +27,7 @@ class CoderetreatTest {
 
   @Test
   void shouldBeTwoPairsForNextRoundOfFourPeople() {
-    List<Pair> pairs = coderetreat.buildNewRoundPairs();
+    List<Pair> pairs = coderetreat.nextRound();
     assertThat(pairs.size()).isEqualTo(2);
   }
 
@@ -38,7 +38,7 @@ class CoderetreatTest {
 
   @Test
   void roundRerollShouldReturnSamePairsNumber() {
-    List<Pair> original = coderetreat.buildNewRoundPairs();
+    List<Pair> original = coderetreat.nextRound();
     List<Pair> rerolled = coderetreat.reRollRound();
     assertThat(rerolled.size()).isEqualTo(original.size());
   }
@@ -47,7 +47,7 @@ class CoderetreatTest {
   void roundRerollCanReturnNewPairs() {
     Random fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
-    List<Pair> original = coderetreat.buildNewRoundPairs();
+    List<Pair> original = coderetreat.nextRound();
     List<Pair> rerolled = coderetreat.reRollRound();
 
     assertContainsNone(original, rerolled);
@@ -58,7 +58,7 @@ class CoderetreatTest {
     Random fakeRandom = new Random(900);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     coderetreat.setDoNotRepeatPairs(false);
-    List<Pair> original = coderetreat.buildNewRoundPairs();
+    List<Pair> original = coderetreat.nextRound();
     List<Pair> rerolled = coderetreat.reRollRound();
 
     assertContainsAny(original, rerolled);
@@ -68,7 +68,7 @@ class CoderetreatTest {
   void pairsInNextRoundsShouldNotContainPairsFromPrevious() {
     List<Pair> previous = new ArrayList<>();
     List<Pair> next;
-    while (!(next = coderetreat.buildNewRoundPairs()).isEmpty()) {
+    while (!(next = coderetreat.nextRound()).isEmpty()) {
       assertContainsNone(previous, next);
       previous.addAll(next);
     }
@@ -78,7 +78,7 @@ class CoderetreatTest {
   void currentRoundPairsShouldBePrintedCorrectly() {
     Random fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
-    coderetreat.buildNewRoundPairs();
+    coderetreat.nextRound();
 
     assertThat(coderetreat.printCurrentRoundPairs()).isEqualTo(
         "#1 Pair: Жора, Петя\n"
