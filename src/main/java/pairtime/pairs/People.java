@@ -11,24 +11,21 @@ public class People {
 
   private Random random;
   private List<String> value;
-  private List<Pair> excludedPairs;
 
   public People(List<String> people, Random random) {
     this.random = random;
     this.value = new ArrayList<>(people);
-    excludedPairs = emptyList();
   }
 
   public People(List<String> people) {
     this(people, new Random());
   }
 
-  public People excludePairs(List<Pair> pairsToExclude) {
-    this.excludedPairs = new ArrayList<>(pairsToExclude);
-    return this;
+  public List<Pair> generatePairs() {
+    return generatePairsExcluding(emptyList());
   }
 
-  public List<Pair> generatePairs() {
+  public List<Pair> generatePairsExcluding(List<Pair> excludedPairs) {
     List<Pair> pairs = new ArrayList<>();
 
     while (value.size() > 1) {

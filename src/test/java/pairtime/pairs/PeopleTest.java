@@ -62,8 +62,7 @@ public class PeopleTest {
   @Test
   void pairIsNotCreatedIfItWasInExcludeList() {
     List<Pair> people = new People(List.of("Вася", "Петя"))
-        .excludePairs(List.of(new Pair("Вася", "Петя")))
-        .generatePairs();
+        .generatePairsExcluding(List.of(new Pair("Вася", "Петя")));
 
     assertThat(people).isEmpty();
   }
@@ -71,10 +70,10 @@ public class PeopleTest {
   @Test
   void pair_Петя_Вася_IsCreatedOnly_as_Вася_Жора_pairIsExcluded() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора"))
-        .excludePairs(List.of(
+        .generatePairsExcluding(List.of(
             new Pair("Вася", "Жора"),
             new Pair("Петя", "Жора")
-        )).generatePairs();
+        ));
     assertThat(people).hasSize(1);
     assertThat(people.get(0)).isEqualTo(new Pair("Петя", "Вася"));
   }

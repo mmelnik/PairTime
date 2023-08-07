@@ -39,8 +39,7 @@ public class Coderetreat {
 
   private List<Pair> makePairs() {
     currentRoundPairs = new People(people, random)
-        .excludePairs(pairsToExclude)
-        .generatePairs();
+        .generatePairsExcluding(pairsToExclude);
     return currentRoundPairs;
   }
 
