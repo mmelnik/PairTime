@@ -2,10 +2,10 @@ package pairtime.pairs;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import java.util.Random;
+
 import org.junit.jupiter.api.Test;
 
 public class PeopleTest {
@@ -15,34 +15,35 @@ public class PeopleTest {
   @Test
   void noPairsAreCreatedFromZeroPeople() {
     List<Pair> people = People.of(List.of()).generatePairs();
-    assertThat(people.isEmpty()).isTrue();
+    assertThat(people).isEmpty();
   }
 
   @Test
   void noPairsAreCreatedFromOnePeople() {
     List<Pair> people = People.of(List.of("Вася")).generatePairs();
-    assertThat(people.isEmpty()).isTrue();
+    assertThat(people).isEmpty();
   }
 
   @Test
   void onePairIsCreatedFromTwoPeople() {
     List<Pair> people = People.of(List.of("Вася", "Петя")).generatePairs();
-    assertThat(people.size()).isEqualTo(1);
-    assertThat(people.get(0)).isEqualTo(new Pair("Вася", "Петя"));
-    assertThat(people.get(0)).isEqualTo(new Pair("Петя", "Вася"));
+    assertThat(people)
+        .hasSize(1)
+        .contains(new Pair("Вася", "Петя"));
   }
 
   @Test
-  void createdPairsShouldConsistOfSamePerson() {
+  void createdPairShouldNotConsistOfSamePerson() {
     List<Pair> people = People.of(List.of("Вася", "Петя")).generatePairs();
-    assertThat(people.get(0)).isNotEqualTo(new Pair("Вася", "Вася"));
-    assertThat(people.get(0)).isNotEqualTo(new Pair("Петя", "Петя"));
+    assertThat(people)
+        .isNotEmpty()
+        .doesNotContain(new Pair("Вася", "Вася"), new Pair("Петя", "Петя"));
   }
 
   @Test
   void twoPairsAreCreatedFromFourPeople() {
     List<Pair> people = People.of(List.of("Вася", "Петя", "Жора", "Саша")).generatePairs();
-    assertThat(people.size()).isEqualTo(2);
+    assertThat(people).hasSize(2);
   }
 
   @Test
@@ -65,7 +66,7 @@ public class PeopleTest {
         .excludePairs(List.of(new Pair("Вася", "Петя")))
         .generatePairs();
 
-    assertThat(people.size()).isEqualTo(0);
+    assertThat(people).isEmpty();
   }
 
   @Test
@@ -75,7 +76,7 @@ public class PeopleTest {
             new Pair("Вася", "Жора"),
             new Pair("Петя", "Жора")
         )).generatePairs();
-    assertThat(people.size()).isEqualTo(1);
+    assertThat(people).hasSize(1);
     assertThat(people.get(0)).isEqualTo(new Pair("Петя", "Вася"));
   }
 
@@ -87,12 +88,8 @@ public class PeopleTest {
         .flatMap(pair -> pair.getPeople().stream())
         .collect(toList());
 
-    assertAll(
-        () -> assertThat(participants.size()).isEqualTo(4),
-        () -> assertThat(participants.contains("Вася")).isTrue(),
-        () -> assertThat(participants.contains("Петя")).isTrue(),
-        () -> assertThat(participants.contains("Жора")).isTrue(),
-        () -> assertThat(participants.contains("Саша")).isTrue()
-    );
+    assertThat(participants)
+        .hasSize(4)
+        .containsExactlyInAnyOrder("Вася", "Петя", "Жора", "Саша");
   }
 }
