@@ -13,23 +13,22 @@ public class People {
   private List<String> value;
   private List<Pair> excludedPairs;
 
-  public People(List<String> people) {
+  public People(List<String> people, Random random) {
+    this.random = random;
     this.value = new ArrayList<>(people);
     excludedPairs = emptyList();
-    random = new Random();
   }
 
   public static People of(List<String> people) {
-    return new People(people);
+    return new People(people, new Random());
+  }
+
+  public static People of(List<String> people, Random random) {
+    return new People(people, random);
   }
 
   public People excludePairs(List<Pair> pairsToExclude) {
     this.excludedPairs = new ArrayList<>(pairsToExclude);
-    return this;
-  }
-
-  public People withRandom(Random random) {
-    this.random = random;
     return this;
   }
 

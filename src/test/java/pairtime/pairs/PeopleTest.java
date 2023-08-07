@@ -54,8 +54,7 @@ public class PeopleTest {
 
   @Test
   void peopleFromMoreThatTwoPeopleAreCreatedUsingRandom() {
-    List<Pair> people = People.of(List.of("Вася", "Петя", "Жора", "Саша"))
-        .withRandom(FAKE_RANDOM)
+    List<Pair> people = People.of(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
         .generatePairs();
     assertThat(people.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }

@@ -5,7 +5,9 @@ import static java.util.Collections.emptyList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import lombok.Getter;
+
 import pairtime.pairs.Pair;
 import pairtime.pairs.People;
 
@@ -36,9 +38,8 @@ public class Coderetreat {
   }
 
   private List<Pair> makePairs() {
-    currentRoundPairs = People.of(people)
+    currentRoundPairs = People.of(people, random)
         .excludePairs(pairsToExclude)
-        .withRandom(random)
         .generatePairs();
     return currentRoundPairs;
   }
