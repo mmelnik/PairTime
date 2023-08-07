@@ -14,11 +14,10 @@ import pairtime.pairs.People;
 
 public class Coderetreat {
 
-  private List<String> people;
+  private People people;
   private List<Pair> pairsToExclude = new ArrayList<>();
   @Getter
   private List<Pair> currentRoundPairs = emptyList();
-  private Random random;
 
   @Getter @Setter
   private boolean doNotRepeatPairs = true;
@@ -28,8 +27,7 @@ public class Coderetreat {
   }
 
   public Coderetreat(List<String> people, Random random) {
-    this.people = people;
-    this.random = random;
+    this.people = new People(people, random);
   }
 
   public List<Pair> buildNewRoundPairs() {
@@ -43,9 +41,9 @@ public class Coderetreat {
 
   private List<Pair> makePairs() {
     if (doNotRepeatPairs) {
-      currentRoundPairs = new People(people, random).makePairsExcluding(pairsToExclude);
+      currentRoundPairs = people.makePairsExcluding(pairsToExclude);
     } else {
-      currentRoundPairs = new People(people, random).makePairs();
+      currentRoundPairs = people.makePairs();
     }
     return currentRoundPairs;
   }
