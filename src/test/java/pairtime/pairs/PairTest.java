@@ -8,6 +8,13 @@ class PairTest {
 
   @Test
   void pairShouldBePrintedCorrectly() {
-    assertThat(new Pair("Вася", "Петя").toString()).isEqualTo("Pair: Вася, Петя");
+    assertThat(new Pair("Вася", "Петя"))
+        .hasToString("Pair: Вася, Петя");
+  }
+
+  @Test
+  void pairShouldBeEqualToInvertedPair() {
+    Pair pair = new Pair("Вася", "Петя");
+    assertThat(pair).isEqualTo(new Pair("Петя", "Вася"));
   }
 }
