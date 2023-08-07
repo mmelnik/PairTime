@@ -19,12 +19,8 @@ public class People {
     excludedPairs = emptyList();
   }
 
-  public static People of(List<String> people) {
-    return new People(people, new Random());
-  }
-
-  public static People of(List<String> people, Random random) {
-    return new People(people, random);
+  public People(List<String> people) {
+    this(people, new Random());
   }
 
   public People excludePairs(List<Pair> pairsToExclude) {
