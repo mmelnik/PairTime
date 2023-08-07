@@ -81,7 +81,7 @@ public class CoderetreatTest {
   }
 
   @Test
-  void currentRoundPairsShouldBePrintedCorreclty() {
+  void currentRoundPairsShouldBePrintedCorrectly() {
     Random fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     coderetreat.buildNewRoundPairs();
