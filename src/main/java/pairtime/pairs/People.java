@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class People {
 
-  private Random random;
-  private List<String> value;
+  private final Random random;
+  private final List<String> value;
 
   public People(List<String> people, Random random) {
     this.random = random;
