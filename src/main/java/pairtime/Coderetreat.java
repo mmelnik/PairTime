@@ -39,7 +39,7 @@ public class Coderetreat {
     currentRoundPairs = People.of(people)
         .excludePairs(pairsToExclude)
         .withRandom(random)
-        .generate();
+        .generatePairs();
     return currentRoundPairs;
   }
 

@@ -33,7 +33,7 @@ public class People {
     return this;
   }
 
-  public List<Pair> generate() {
+  public List<Pair> generatePairs() {
     List<Pair> pairs = new ArrayList<>();
 
     while (value.size() > 1) {
