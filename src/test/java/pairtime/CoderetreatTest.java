@@ -27,19 +27,19 @@ class CoderetreatTest {
 
   @Test
   void shouldBeTwoPairsForNextRoundOfFourPeople() {
-    List<Pair> pairs = coderetreat.nextRound();
+    List<Pair> pairs = coderetreat.nextRound().getPairs();
     assertThat(pairs.size()).isEqualTo(2);
   }
 
   @Test
   void roundRerollForNewCoderetreatShouldReturnNewPairs() {
-    assertThat(coderetreat.reRollRound()).hasSize(2);
+    assertThat(coderetreat.reRollRound().getPairs()).hasSize(2);
   }
 
   @Test
   void roundRerollShouldReturnSamePairsNumber() {
-    List<Pair> original = coderetreat.nextRound();
-    List<Pair> rerolled = coderetreat.reRollRound();
+    List<Pair> original = coderetreat.nextRound().getPairs();
+    List<Pair> rerolled = coderetreat.reRollRound().getPairs();
     assertThat(rerolled.size()).isEqualTo(original.size());
   }
 
@@ -47,8 +47,8 @@ class CoderetreatTest {
   void roundRerollCanReturnNewPairs() {
     Random fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
-    List<Pair> original = coderetreat.nextRound();
-    List<Pair> rerolled = coderetreat.reRollRound();
+    List<Pair> original = coderetreat.nextRound().getPairs();
+    List<Pair> rerolled = coderetreat.reRollRound().getPairs();
 
     assertContainsNone(original, rerolled);
   }
@@ -58,8 +58,8 @@ class CoderetreatTest {
     Random fakeRandom = new Random(900);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     coderetreat.setDoNotRepeatPairs(false);
-    List<Pair> original = coderetreat.nextRound();
-    List<Pair> rerolled = coderetreat.reRollRound();
+    List<Pair> original = coderetreat.nextRound().getPairs();
+    List<Pair> rerolled = coderetreat.reRollRound().getPairs();
 
     assertContainsAny(original, rerolled);
   }
@@ -68,7 +68,7 @@ class CoderetreatTest {
   void pairsInNextRoundsShouldNotContainPairsFromPrevious() {
     List<Pair> previous = new ArrayList<>();
     List<Pair> next;
-    while (!(next = coderetreat.nextRound()).isEmpty()) {
+    while (!(next = coderetreat.nextRound().getPairs()).isEmpty()) {
       assertContainsNone(previous, next);
       previous.addAll(next);
     }

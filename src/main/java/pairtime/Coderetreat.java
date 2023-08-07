@@ -32,12 +32,12 @@ public class Coderetreat {
     this.people = new People(people, random);
   }
 
-  public List<Pair> nextRound() {
+  public Round nextRound() {
     rounds.add(new Round(rounds.size() + 1, makePairs()));
-    return rounds.getLast().getPairs();
+    return rounds.getLast();
   }
 
-  public List<Pair> reRollRound() {
+  public Round reRollRound() {
     if (!rounds.isEmpty()) {
       rounds.removeLast();
     }
