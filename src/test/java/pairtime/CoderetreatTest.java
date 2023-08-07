@@ -62,10 +62,6 @@ public class CoderetreatTest {
     assertContainsAny(original, shuffled);
   }
 
-  private ListAssert assertContainsAny(List<Pair> original, List<Pair> shuffled) {
-    return assertThat(original).containsAnyOf(shuffled.toArray(Pair[]::new));
-  }
-
   @Test
   void pairsInNextRoundsShouldNotContainPairsFromPrevious() {
     List<Pair> previous = new ArrayList<>();
@@ -74,10 +70,6 @@ public class CoderetreatTest {
       assertContainsNone(previous, next);
       previous.addAll(next);
     }
-  }
-
-  private ListAssert assertContainsNone(List<Pair> previous, List<Pair> next) {
-    return assertThat(previous).doesNotContain(next.toArray(Pair[]::new));
   }
 
   @Test
@@ -90,5 +82,13 @@ public class CoderetreatTest {
         "#1 Pair: Жора, Петя\n"
             + "#2 Pair: Вася, Саша\n"
     );
+  }
+
+  private ListAssert assertContainsAny(List<Pair> original, List<Pair> shuffled) {
+    return assertThat(original).containsAnyOf(shuffled.toArray(Pair[]::new));
+  }
+
+  private ListAssert assertContainsNone(List<Pair> previous, List<Pair> next) {
+    return assertThat(previous).doesNotContain(next.toArray(Pair[]::new));
   }
 }
