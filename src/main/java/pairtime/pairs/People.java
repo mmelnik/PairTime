@@ -28,12 +28,14 @@ public class People {
   public List<Pair> generatePairsExcluding(List<Pair> excludedPairs) {
     List<Pair> pairs = new ArrayList<>();
 
-    while (value.size() > 1) {
-      String driver = value.remove(random.nextInt(value.size()));
-      Optional<String> navigator = findNavigatorFor(driver, value, excludedPairs);
+    var people = new ArrayList<>(value);
+
+    while (people.size() > 1) {
+      String driver = people.remove(random.nextInt(people.size()));
+      Optional<String> navigator = findNavigatorFor(driver, people, excludedPairs);
 
       if (navigator.isPresent()) {
-        value.remove(navigator.get());
+        people.remove(navigator.get());
         pairs.add(new Pair(driver, navigator.get()));
       }
     }
