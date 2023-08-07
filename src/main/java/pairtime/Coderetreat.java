@@ -2,7 +2,9 @@ package pairtime;
 
 import static java.util.Collections.emptyList;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Random;
 
@@ -11,13 +13,13 @@ import lombok.Setter;
 
 import pairtime.pairs.Pair;
 import pairtime.pairs.People;
+import pairtime.pairs.Round;
 
 public class Coderetreat {
 
   private People people;
+  private Deque<Round> rounds = new ArrayDeque<>();
   private List<Pair> pairsToExclude = new ArrayList<>();
-  @Getter
-  private List<Pair> currentRoundPairs = emptyList();
 
   @Getter @Setter
   private boolean doNotRepeatPairs = true;
@@ -31,28 +33,35 @@ public class Coderetreat {
   }
 
   public List<Pair> buildNewRoundPairs() {
-    pairsToExclude.addAll(currentRoundPairs);
-    return makePairs();
+    pairsToExclude.addAll(rounds.isEmpty() ? emptyList() : rounds.getLast().getPairs());
+    rounds.add(new Round(rounds.size() + 1, makePairs()));
+    return rounds.getLast().getPairs();
   }
 
   public List<Pair> shufflePairs() {
-    return currentRoundPairs.isEmpty() ? emptyList() : makePairs();
+    if (!rounds.isEmpty()) {
+      rounds.removeLast();
+    }
+    rounds.add(new Round(rounds.size() + 1, makePairs()));
+    return rounds.getLast().getPairs();
   }
 
   private List<Pair> makePairs() {
     if (doNotRepeatPairs) {
-      currentRoundPairs = people.makePairsExcluding(pairsToExclude);
-    } else {
-      currentRoundPairs = people.makePairs();
+      return people.makePairsExcluding(pairsToExclude);
     }
-    return currentRoundPairs;
+    return people.makePairs();
+  }
+
+  public List<Pair> getCurrentRoundPairs() {
+    return rounds.isEmpty() ? emptyList() : rounds.getLast().getPairs();
   }
 
   public String printCurrentRoundPairs() {
     StringBuilder sb = new StringBuilder();
-    for (int index = 0; index < currentRoundPairs.size(); index++) {
+    for (int index = 0; index < rounds.getLast().getPairs().size(); index++) {
       sb.append("#" + (index + 1) + " ")
-          .append(currentRoundPairs.get(index).toString())
+          .append(rounds.getLast().getPairs().get(index).toString())
           .append("\n");
     }
     return sb.toString();

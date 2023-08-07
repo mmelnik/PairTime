@@ -26,14 +26,14 @@ class CoderetreatTest {
   }
 
   @Test
-  void shufflingPairsForNewCoderetreatShouldReturnEmptyList() {
-    assertThat(coderetreat.shufflePairs()).isEmpty();
-  }
-
-  @Test
   void shouldBeTwoPairsForNextRoundOfFourPeople() {
     List<Pair> pairs = coderetreat.buildNewRoundPairs();
     assertThat(pairs.size()).isEqualTo(2);
+  }
+
+  @Test
+  void shufflingPairsForNewCoderetreatShouldReturnNewPairs() {
+    assertThat(coderetreat.shufflePairs()).hasSize(2);
   }
 
   @Test
