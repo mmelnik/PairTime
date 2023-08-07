@@ -62,13 +62,7 @@ public class Coderetreat {
     return rounds.isEmpty() ? emptyList() : rounds.getLast().getPairs();
   }
 
-  public String printCurrentRoundPairs() {
-    StringBuilder sb = new StringBuilder();
-    for (int index = 0; index < rounds.getLast().getPairs().size(); index++) {
-      sb.append("#" + (index + 1) + " ")
-          .append(rounds.getLast().getPairs().get(index).toString())
-          .append("\n");
-    }
-    return sb.toString();
+  public String printCurrentRound() {
+    return rounds.isEmpty() ? "" : rounds.getLast().toString();
   }
 }

@@ -80,7 +80,7 @@ class CoderetreatTest {
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     coderetreat.nextRound();
 
-    assertThat(coderetreat.printCurrentRoundPairs()).isEqualTo(
+    assertThat(coderetreat.printCurrentRound()).isEqualTo(
         "#1 Pair: Жора, Петя\n"
             + "#2 Pair: Вася, Саша\n"
     );
