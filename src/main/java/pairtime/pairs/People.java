@@ -21,11 +21,11 @@ public class People {
     this(people, new Random());
   }
 
-  public List<Pair> generatePairs() {
-    return generatePairsExcluding(emptyList());
+  public List<Pair> makePairs() {
+    return makePairsExcluding(emptyList());
   }
 
-  public List<Pair> generatePairsExcluding(List<Pair> excludedPairs) {
+  public List<Pair> makePairsExcluding(List<Pair> excludedPairs) {
     List<Pair> pairs = new ArrayList<>();
 
     var people = new ArrayList<>(value);
