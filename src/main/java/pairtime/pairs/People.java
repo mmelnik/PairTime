@@ -30,11 +30,12 @@ public class People {
 
     while (value.size() > 1) {
       String driver = value.remove(random.nextInt(value.size()));
-      findNavigatorFor(driver, value, excludedPairs)
-          .ifPresent(navigator -> {
-            value.remove(navigator);
-            pairs.add(new Pair(driver, navigator));
-          });
+      Optional<String> navigator = findNavigatorFor(driver, value, excludedPairs);
+
+      if (navigator.isPresent()) {
+        value.remove(navigator.get());
+        pairs.add(new Pair(driver, navigator.get()));
+      }
     }
     return pairs;
   }
