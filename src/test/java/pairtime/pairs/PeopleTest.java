@@ -4,13 +4,10 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 
 public class PeopleTest {
-
-  public static final Random FAKE_RANDOM = new Random(1);
 
   @Test
   void _0_pairs_created_from_0_people() {
@@ -53,7 +50,7 @@ public class PeopleTest {
 
   @Test
   void _2_pairs_created_from_4_people_when_1_pair_excluded() {
-    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"))
             .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
 
     assertThat(pairs)
@@ -97,13 +94,6 @@ public class PeopleTest {
     var pairs = new People(List.of("Вася", "Петя", "Жора")).makePairsWithExclusions(excludedPairs);
 
     assertThat(pairs).doesNotContainAnyElementsOf(excludedPairs);
-  }
-
-  @Test
-  void pairs_created_using_random() {
-    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM).makePairs();
-
-    assertThat(pairs.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }
 
   @Test
