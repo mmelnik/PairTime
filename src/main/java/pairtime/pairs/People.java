@@ -22,10 +22,10 @@ public class People {
   }
 
   public List<Pair> makePairs() {
-    return makePairsExcluding(emptyList());
+    return makePairsWithExclusions(emptyList());
   }
 
-  public List<Pair> makePairsExcluding(List<Pair> excludedPairs) {
+  public List<Pair> makePairsWithExclusions(List<Pair> excludedPairs) {
     List<Pair> pairs = new ArrayList<>();
 
     var people = new ArrayList<>(value);
