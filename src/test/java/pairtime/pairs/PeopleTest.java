@@ -52,17 +52,20 @@ public class PeopleTest {
   }
 
   @Test
+  void _2_pairs_created_from_4_people_when_1_pair_excluded() {
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
+            .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
+
+    assertThat(pairs)
+            .hasSize(2)
+            .doesNotContain(new Pair("Вася", "Саша"));
+  }
+
+  @Test
   void pairs_created_from_4_people_are_not_equal() {
     var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
 
     assertThat(pairs.get(0)).isNotEqualTo(pairs.get(1));
-  }
-
-  @Test
-  void pairs_created_using_random() {
-    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM).makePairs();
-
-    assertThat(pairs.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }
 
   @Test
@@ -86,13 +89,10 @@ public class PeopleTest {
   }
 
   @Test
-  void _2_pairs_created_from_4_people_when_1_pair_excluded() {
-    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
-        .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
+  void pairs_created_using_random() {
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM).makePairs();
 
-    assertThat(pairs)
-        .hasSize(2)
-        .doesNotContain(new Pair("Вася", "Саша"));
+    assertThat(pairs.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }
 
   @Test
