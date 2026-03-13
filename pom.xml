@@ -12,9 +12,9 @@
     <project.build.jdk.version>25</project.build.jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <dev.dep.lombok.version>1.18.12</dev.dep.lombok.version>
-    <test.dep.junit.version>5.6.0</test.dep.junit.version>
-    <test.dep.assertj.version>3.15.0</test.dep.assertj.version>
+    <dev.dep.lombok.version>1.18.40</dev.dep.lombok.version>
+    <test.dep.junit.version>6.0.3</test.dep.junit.version>
+    <test.dep.assertj.version>3.27.7</test.dep.assertj.version>
     <plugin.compiler.maven.version>3.14.1</plugin.compiler.maven.version>
   </properties>
 
