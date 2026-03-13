@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import pairtime.pairs.Pair;
 import pairtime.pairs.People;
 import pairtime.pairs.Round;
@@ -21,7 +18,6 @@ public class Coderetreat {
   private final Deque<Round> rounds = new ArrayDeque<>();
   private final People people;
 
-  @Getter @Setter
   private boolean doNotRepeatPairs = true;
 
   public Coderetreat(List<String> people) {
@@ -64,5 +60,9 @@ public class Coderetreat {
 
   public String printCurrentRound() {
     return rounds.isEmpty() ? "" : rounds.getLast().toString();
+  }
+
+  public void setDoNotRepeatPairs(boolean doNotRepeatPairs) {
+    this.doNotRepeatPairs = doNotRepeatPairs;
   }
 }
