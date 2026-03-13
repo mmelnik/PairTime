@@ -14,7 +14,7 @@ class PairTest {
 
   @Test
   void pairShouldBeEqualToInvertedPair() {
-    Pair pair = new Pair("Вася", "Петя");
-    assertThat(pair).isEqualTo(new Pair("Петя", "Вася"));
+    assertThat(new Pair("Вася", "Петя"))
+        .isEqualTo(new Pair("Петя", "Вася"));
   }
 }
