@@ -62,7 +62,7 @@ public class PeopleTest {
   @Test
   void _0_pairs_created_from_2_people_when_their_pair_excluded() {
     List<Pair> people = new People(List.of("Вася", "Петя"))
-        .makePairsExcluding(List.of(new Pair("Вася", "Петя")));
+        .makePairsWithExclusions(List.of(new Pair("Вася", "Петя")));
 
     assertThat(people).isEmpty();
   }
@@ -70,7 +70,7 @@ public class PeopleTest {
   @Test
   void _1_pair_from_3_people_created_when_1_pair_excluded() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора"))
-        .makePairsExcluding(List.of(
+        .makePairsWithExclusions(List.of(
             new Pair("Вася", "Жора"),
             new Pair("Петя", "Жора")
         ));
@@ -81,7 +81,7 @@ public class PeopleTest {
   @Test
   void _2_pairs_created_from_4_people_when_1_pair_excluded() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
-        .makePairsExcluding(List.of(new Pair("Вася", "Саша")));
+        .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
 
     assertThat(people)
         .hasSize(2)
