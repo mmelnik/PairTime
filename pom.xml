@@ -12,6 +12,7 @@
     <project.build.jdk.version>12</project.build.jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+    <dev.dep.lombok.version>1.18.12</dev.dep.lombok.version>
     <test.dep.junit.version>5.6.0</test.dep.junit.version>
     <test.dep.assertj.version>3.15.0</test.dep.assertj.version>
     <plugin.compiler.maven.version>3.8.1</plugin.compiler.maven.version>
@@ -60,7 +61,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.12</version>
+        <version>${dev.dep.lombok.version}</version>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
