@@ -13,19 +13,19 @@ public class PeopleTest {
   public static final Random FAKE_RANDOM = new Random(1);
 
   @Test
-  void noPairsAreCreatedFromZeroPeople() {
+  void _0_pairs_created_from_0_people() {
     List<Pair> people = new People(List.of()).makePairs();
     assertThat(people).isEmpty();
   }
 
   @Test
-  void noPairsAreCreatedFromOnePeople() {
+  void _0_pairs_created_from_1_person() {
     List<Pair> people = new People(List.of("Вася")).makePairs();
     assertThat(people).isEmpty();
   }
 
   @Test
-  void onePairIsCreatedFromTwoPeople() {
+  void _1_pair_created_from_2_people() {
     List<Pair> people = new People(List.of("Вася", "Петя")).makePairs();
     assertThat(people)
         .hasSize(1)
@@ -33,7 +33,7 @@ public class PeopleTest {
   }
 
   @Test
-  void createdPairShouldNotConsistOfSamePerson() {
+  void pairs_not_consist_of_1_person() {
     List<Pair> people = new People(List.of("Вася", "Петя")).makePairs();
     assertThat(people)
         .isNotEmpty()
@@ -41,26 +41,26 @@ public class PeopleTest {
   }
 
   @Test
-  void twoPairsAreCreatedFromFourPeople() {
+  void _2_pairs_created_from_4_people() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
     assertThat(people).hasSize(2);
   }
 
   @Test
-  void peopleCreatedFromFourPeopleAreNotEqual() {
+  void pairs_created_from_4_people_are_not_equal() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
     assertThat(people.get(0)).isNotEqualTo(people.get(1));
   }
 
   @Test
-  void peopleFromMoreThatTwoPeopleAreCreatedUsingRandom() {
+  void pairs_created_using_random() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
         .makePairs();
     assertThat(people.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }
 
   @Test
-  void pairIsNotCreatedIfItWasInExcludeList() {
+  void _0_pairs_created_from_2_people_when_their_pair_excluded() {
     List<Pair> people = new People(List.of("Вася", "Петя"))
         .makePairsExcluding(List.of(new Pair("Вася", "Петя")));
 
@@ -68,7 +68,7 @@ public class PeopleTest {
   }
 
   @Test
-  void pair_Петя_Вася_IsCreatedOnly_as_Вася_Жора_pairIsExcluded() {
+  void _1_pair_from_3_people_created_when_1_pair_excluded() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора"))
         .makePairsExcluding(List.of(
             new Pair("Вася", "Жора"),
@@ -79,7 +79,7 @@ public class PeopleTest {
   }
 
   @Test
-  void twoPairsAreCreatedFromFourPeople_Вася_Саша_pairIsExcluded() {
+  void _2_pairs_created_from_4_people_when_1_pair_excluded() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
         .makePairsExcluding(List.of(new Pair("Вася", "Саша")));
 
@@ -89,7 +89,7 @@ public class PeopleTest {
   }
 
   @Test
-  void builtPairsShouldNotIncludeSamePersonTwice() {
+  void pairs_not_include_same_person_twice() {
     List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
 
     List<String> participants = people.stream()
