@@ -50,7 +50,7 @@ class CoderetreatTest {
     var originalRoundPairs = coderetreat.nextRound().pairs();
     var rerolledRoundPairs = coderetreat.reRollRound().pairs();
 
-    assertContainsNone(originalRoundPairs, rerolledRoundPairs);
+    assertContainsNone(rerolledRoundPairs, originalRoundPairs);
   }
 
   @Test
@@ -61,7 +61,7 @@ class CoderetreatTest {
     var originalRoundPairs = coderetreat.nextRound().pairs();
     var rerolledRoundPairs = coderetreat.reRollRound().pairs();
 
-    assertContainsAny(originalRoundPairs, rerolledRoundPairs);
+    assertContainsAny(rerolledRoundPairs, originalRoundPairs);
   }
 
   @Test
@@ -87,10 +87,10 @@ class CoderetreatTest {
   }
 
   private void assertContainsAny(List<Pair> list1, List<Pair> list2) {
-    assertThat(list1).containsAnyOf(list2.toArray(Pair[]::new));
+    assertThat(list1).containsAnyElementsOf(list2);
   }
 
   private void assertContainsNone(List<Pair> list1, List<Pair> list2) {
-    assertThat(list1).doesNotContain(list2.toArray(Pair[]::new));
+    assertThat(list1).doesNotContainAnyElementsOf(list2);
   }
 }
