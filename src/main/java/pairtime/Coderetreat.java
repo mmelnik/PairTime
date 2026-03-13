@@ -46,7 +46,7 @@ public class Coderetreat {
 
   private List<Pair> makePairs() {
     if (doNotRepeatPairs) {
-      return people.makePairsExcluding(pairsFromPreviousRounds());
+      return people.makePairsWithExclusions(pairsFromPreviousRounds());
     }
     return people.makePairs();
   }
