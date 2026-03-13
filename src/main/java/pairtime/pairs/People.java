@@ -26,13 +26,15 @@ public class People {
   }
 
   public List<Pair> makePairsWithExclusions(List<Pair> excludedPairs) {
+    var excluded = excludedPairs != null ? excludedPairs : List.<Pair>of();
+
     List<Pair> pairs = new ArrayList<>();
 
     var people = new ArrayList<>(value);
 
     while (people.size() > 1) {
       String driver = people.remove(random.nextInt(people.size()));
-      Optional<String> navigator = findNavigatorFor(driver, people, excludedPairs);
+      Optional<String> navigator = findNavigatorFor(driver, people, excluded);
 
       if (navigator.isPresent()) {
         people.remove(navigator.get());
@@ -53,4 +55,5 @@ public class People {
     }
     return Optional.empty();
   }
+
 }
