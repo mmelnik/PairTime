@@ -14,21 +14,21 @@ public class PeopleTest {
 
   @Test
   void _0_pairs_created_from_0_people() {
-    List<Pair> pairs = new People(List.of()).makePairs();
+    var pairs = new People(List.of()).makePairs();
 
     assertThat(pairs).isEmpty();
   }
 
   @Test
   void _0_pairs_created_from_1_person() {
-    List<Pair> pairs = new People(List.of("Вася")).makePairs();
+    var pairs = new People(List.of("Вася")).makePairs();
 
     assertThat(pairs).isEmpty();
   }
 
   @Test
   void _1_pair_created_from_2_people() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя")).makePairs();
+    var pairs = new People(List.of("Вася", "Петя")).makePairs();
 
     assertThat(pairs)
         .hasSize(1)
@@ -37,7 +37,7 @@ public class PeopleTest {
 
   @Test
   void pairs_not_consist_of_1_person() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя")).makePairs();
+    var pairs = new People(List.of("Вася", "Петя")).makePairs();
 
     assertThat(pairs)
         .isNotEmpty()
@@ -46,29 +46,28 @@ public class PeopleTest {
 
   @Test
   void _2_pairs_created_from_4_people() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
 
     assertThat(pairs).hasSize(2);
   }
 
   @Test
   void pairs_created_from_4_people_are_not_equal() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
 
     assertThat(pairs.get(0)).isNotEqualTo(pairs.get(1));
   }
 
   @Test
   void pairs_created_using_random() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
-        .makePairs();
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM).makePairs();
 
     assertThat(pairs.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }
 
   @Test
   void _0_pairs_created_from_2_people_when_their_pair_excluded() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя"))
+    var pairs = new People(List.of("Вася", "Петя"))
         .makePairsWithExclusions(List.of(new Pair("Вася", "Петя")));
 
     assertThat(pairs).isEmpty();
@@ -76,7 +75,7 @@ public class PeopleTest {
 
   @Test
   void _1_pair_from_3_people_created_when_1_pair_excluded() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора"))
+    var pairs = new People(List.of("Вася", "Петя", "Жора"))
         .makePairsWithExclusions(List.of(
             new Pair("Вася", "Жора"),
             new Pair("Петя", "Жора")
@@ -88,7 +87,7 @@ public class PeopleTest {
 
   @Test
   void _2_pairs_created_from_4_people_when_1_pair_excluded() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
         .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
 
     assertThat(pairs)
@@ -98,8 +97,8 @@ public class PeopleTest {
 
   @Test
   void pairs_not_include_same_person_twice() {
-    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
-    List<String> participants = pairs.stream()
+    var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
+    var participants = pairs.stream()
         .flatMap(pair -> pair.getPeople().stream())
         .collect(toList());
 
