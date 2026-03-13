@@ -28,24 +28,23 @@ public class People {
   public List<Pair> makePairsWithExclusions(List<Pair> excludedPairs) {
     var excluded = excludedPairs != null ? excludedPairs : List.<Pair>of();
 
-    List<Pair> pairs = new ArrayList<>();
+    return pairUp(new ArrayList<>(value), new ArrayList<>(), excluded);
+  }
 
-    var people = new ArrayList<>(value);
-
-    while (people.size() > 1) {
-      String driver = people.remove(random.nextInt(people.size()));
-      Optional<String> navigator = findNavigatorFor(driver, people, excluded);
+  private List<Pair> pairUp(ArrayList<String> available, List<Pair> pairs, List<Pair> excluded) {
+    while (available.size() > 1) {
+      String driver = available.remove(random.nextInt(available.size()));
+      Optional<String> navigator = findNavigatorFor(driver, available, excluded);
 
       if (navigator.isPresent()) {
-        people.remove(navigator.get());
+        available.remove(navigator.get());
         pairs.add(new Pair(driver, navigator.get()));
       }
     }
     return pairs;
   }
 
-  private Optional<String> findNavigatorFor(String driver, List<String> people,
-      List<Pair> excludedPairs) {
+  private Optional<String> findNavigatorFor(String driver, List<String> people, List<Pair> excludedPairs) {
     List<String> candidates = new ArrayList<>(people);
     while (!candidates.isEmpty()) {
       String navigator = candidates.remove(random.nextInt(candidates.size()));
