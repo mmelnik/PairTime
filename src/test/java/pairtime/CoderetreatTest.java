@@ -27,7 +27,7 @@ class CoderetreatTest {
 
   @Test
   void shouldBeTwoPairsForNextRoundOfFourPeople() {
-    List<Pair> pairs = coderetreat.nextRound().pairs();
+    var pairs = coderetreat.nextRound().pairs();
     assertThat(pairs).hasSize(2);
   }
 
@@ -38,35 +38,35 @@ class CoderetreatTest {
 
   @Test
   void roundRerollShouldReturnSamePairsNumber() {
-    List<Pair> originalRoundPairs = coderetreat.nextRound().pairs();
-    List<Pair> rerolledRoundPairs = coderetreat.reRollRound().pairs();
+    var originalRoundPairs = coderetreat.nextRound().pairs();
+    var rerolledRoundPairs = coderetreat.reRollRound().pairs();
     assertThat(rerolledRoundPairs).hasSize(originalRoundPairs.size());
   }
 
   @Test
   void roundRerollCanReturnNewPairs() {
-    Random fakeRandom = new Random(1);
+    var fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
-    List<Pair> originalRoundPairs = coderetreat.nextRound().pairs();
-    List<Pair> rerolledRoundPairs = coderetreat.reRollRound().pairs();
+    var originalRoundPairs = coderetreat.nextRound().pairs();
+    var rerolledRoundPairs = coderetreat.reRollRound().pairs();
 
     assertContainsNone(originalRoundPairs, rerolledRoundPairs);
   }
 
   @Test
   void roundRerollCanReturnSamePairs() {
-    Random fakeRandom = new Random(900);
+    var fakeRandom = new Random(3);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     coderetreat.setDoNotRepeatPairs(false);
-    List<Pair> originalRoundPairs = coderetreat.nextRound().pairs();
-    List<Pair> rerolledRoundPairs = coderetreat.reRollRound().pairs();
+    var originalRoundPairs = coderetreat.nextRound().pairs();
+    var rerolledRoundPairs = coderetreat.reRollRound().pairs();
 
     assertContainsAny(originalRoundPairs, rerolledRoundPairs);
   }
 
   @Test
   void pairsInNextRoundsShouldNotContainPairsFromPrevious() {
-    List<Pair> previousRoundsPairs = new ArrayList<>();
+    var previousRoundsPairs = new ArrayList<Pair>();
     List<Pair> nextRoundPairs;
     while (!(nextRoundPairs = coderetreat.nextRound().pairs()).isEmpty()) {
       assertContainsNone(previousRoundsPairs, nextRoundPairs);
@@ -76,7 +76,7 @@ class CoderetreatTest {
 
   @Test
   void currentRoundPairsShouldBePrintedCorrectly() {
-    Random fakeRandom = new Random(1);
+    var fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
     coderetreat.nextRound();
 
