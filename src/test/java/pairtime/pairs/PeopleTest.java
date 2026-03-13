@@ -14,92 +14,92 @@ public class PeopleTest {
 
   @Test
   void _0_pairs_created_from_0_people() {
-    List<Pair> people = new People(List.of()).makePairs();
+    List<Pair> pairs = new People(List.of()).makePairs();
 
-    assertThat(people).isEmpty();
+    assertThat(pairs).isEmpty();
   }
 
   @Test
   void _0_pairs_created_from_1_person() {
-    List<Pair> people = new People(List.of("Вася")).makePairs();
+    List<Pair> pairs = new People(List.of("Вася")).makePairs();
 
-    assertThat(people).isEmpty();
+    assertThat(pairs).isEmpty();
   }
 
   @Test
   void _1_pair_created_from_2_people() {
-    List<Pair> people = new People(List.of("Вася", "Петя")).makePairs();
+    List<Pair> pairs = new People(List.of("Вася", "Петя")).makePairs();
 
-    assertThat(people)
+    assertThat(pairs)
         .hasSize(1)
         .contains(new Pair("Вася", "Петя"));
   }
 
   @Test
   void pairs_not_consist_of_1_person() {
-    List<Pair> people = new People(List.of("Вася", "Петя")).makePairs();
+    List<Pair> pairs = new People(List.of("Вася", "Петя")).makePairs();
 
-    assertThat(people)
+    assertThat(pairs)
         .isNotEmpty()
         .doesNotContain(new Pair("Вася", "Вася"), new Pair("Петя", "Петя"));
   }
 
   @Test
   void _2_pairs_created_from_4_people() {
-    List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
+    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
 
-    assertThat(people).hasSize(2);
+    assertThat(pairs).hasSize(2);
   }
 
   @Test
   void pairs_created_from_4_people_are_not_equal() {
-    List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
+    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
 
-    assertThat(people.get(0)).isNotEqualTo(people.get(1));
+    assertThat(pairs.get(0)).isNotEqualTo(pairs.get(1));
   }
 
   @Test
   void pairs_created_using_random() {
-    List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
+    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
         .makePairs();
 
-    assertThat(people.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
+    assertThat(pairs.get(0)).isNotEqualTo(new Pair("Вася", "Петя"));
   }
 
   @Test
   void _0_pairs_created_from_2_people_when_their_pair_excluded() {
-    List<Pair> people = new People(List.of("Вася", "Петя"))
+    List<Pair> pairs = new People(List.of("Вася", "Петя"))
         .makePairsWithExclusions(List.of(new Pair("Вася", "Петя")));
 
-    assertThat(people).isEmpty();
+    assertThat(pairs).isEmpty();
   }
 
   @Test
   void _1_pair_from_3_people_created_when_1_pair_excluded() {
-    List<Pair> people = new People(List.of("Вася", "Петя", "Жора"))
+    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора"))
         .makePairsWithExclusions(List.of(
             new Pair("Вася", "Жора"),
             new Pair("Петя", "Жора")
         ));
 
-    assertThat(people).hasSize(1);
-    assertThat(people.get(0)).isEqualTo(new Pair("Петя", "Вася"));
+    assertThat(pairs).hasSize(1);
+    assertThat(pairs.get(0)).isEqualTo(new Pair("Петя", "Вася"));
   }
 
   @Test
   void _2_pairs_created_from_4_people_when_1_pair_excluded() {
-    List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
+    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"), FAKE_RANDOM)
         .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
 
-    assertThat(people)
+    assertThat(pairs)
         .hasSize(2)
         .doesNotContain(new Pair("Вася", "Саша"));
   }
 
   @Test
   void pairs_not_include_same_person_twice() {
-    List<Pair> people = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
-    List<String> participants = people.stream()
+    List<Pair> pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
+    List<String> participants = pairs.stream()
         .flatMap(pair -> pair.getPeople().stream())
         .collect(toList());
 
