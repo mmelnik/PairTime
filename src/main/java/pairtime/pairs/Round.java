@@ -2,15 +2,7 @@ package pairtime.pairs;
 
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
-
-@Value
-@RequiredArgsConstructor
-public class Round {
-
-  int number;
-  List<Pair> pairs;
+public record Round(int number, List<Pair> pairs) {
 
   @Override
   public String toString() {

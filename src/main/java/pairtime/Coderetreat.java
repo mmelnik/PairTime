@@ -53,13 +53,13 @@ public class Coderetreat {
 
   private List<Pair> pairsFromPreviousRounds() {
     return rounds.stream()
-        .map(Round::getPairs)
+        .map(Round::pairs)
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
   }
 
   public List<Pair> getCurrentRoundPairs() {
-    return rounds.isEmpty() ? emptyList() : rounds.getLast().getPairs();
+    return rounds.isEmpty() ? emptyList() : rounds.getLast().pairs();
   }
 
   public String printCurrentRound() {

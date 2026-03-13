@@ -2,13 +2,7 @@ package pairtime.pairs;
 
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
-public class Pair {
-
-  private final String driver;
-  private final String navigator;
+public record Pair(String driver, String navigator) {
 
   public List<String> getPeople() {
     return List.of(driver, navigator);
