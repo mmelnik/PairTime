@@ -82,7 +82,7 @@ public class PeopleTest {
         ));
 
     assertThat(pairs).hasSize(1);
-    assertThat(pairs.get(0)).isEqualTo(new Pair("Петя", "Вася"));
+    assertThat(pairs.getFirst()).isEqualTo(new Pair("Петя", "Вася"));
   }
 
   @Test
