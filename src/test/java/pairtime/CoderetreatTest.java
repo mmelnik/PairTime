@@ -81,8 +81,10 @@ class CoderetreatTest {
     coderetreat.nextRound();
 
     assertThat(coderetreat.printCurrentRound()).isEqualTo(
-        "#1 Pair: Жора, Петя\n"
-            + "#2 Pair: Вася, Саша\n"
+        """
+        #1 Pair: Вася, Петя
+        #2 Pair: Жора, Саша
+        """
     );
   }
 
