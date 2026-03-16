@@ -3,14 +3,16 @@ package pairtime.pairs;
 import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 public class People {
 
-  private final List<String> value;
   private final Random random;
+
+  private List<String> value;
 
   public People(List<String> people, Random random) {
     this.random = random;
@@ -54,4 +56,9 @@ public class People {
       .or(() -> pairUp(available, accumulated, excluded));
   }
 
+    public void shuffle() {
+        var shuffled = new ArrayList<>(value);
+        Collections.shuffle(shuffled, random);
+        value = shuffled;
+    }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import pairtime.pairs.Pair;
@@ -45,7 +44,6 @@ class CoderetreatTest {
   }
 
   @Test
-  @Disabled
   void roundRerollCanReturnNewPairs() {
     var fakeRandom = new Random(1);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
@@ -56,7 +54,6 @@ class CoderetreatTest {
   }
 
   @Test
-  @Disabled
   void roundRerollCanReturnSamePairs() {
     var fakeRandom = new Random(3);
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);

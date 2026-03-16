@@ -36,6 +36,7 @@ public class Coderetreat {
   public Round reRollRound() {
     if (!rounds.isEmpty()) {
       rounds.removeLast();
+      people.shuffle();
     }
     return nextRound();
   }
