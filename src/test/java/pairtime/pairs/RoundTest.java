@@ -24,6 +24,36 @@ class RoundTest {
 
       assertEquals(expectedNumber, round.number());
     }
+
+    @Test
+    void pairsListShouldBeStoredCorrectly() {
+      var expectedPairs = List.of(
+          new Pair("Alice", "Bob"),
+          new Pair("Charlie", "Diana")
+      );
+
+      var actual = new Round(1, expectedPairs).pairs();
+
+      assertThat(actual)
+          .isEqualTo(expectedPairs)
+          .isNotSameAs(expectedPairs);
+    }
+
+    @Test
+    void roundCannotHaveEmptyPairs() {
+      var pairs = List.<Pair>of();
+      assertThrows(IllegalArgumentException.class, () -> new Round(2, pairs));
+    }
+
+    @Test
+    void roundPairsShouldBeImmutable() {
+      var originalPairs = new ArrayList<>(List.of(new Pair("A", "B")));
+      var round = new Round(1, originalPairs);
+
+      originalPairs.add(new Pair("C", "D"));
+
+      assertThat(round.pairs()).hasSize(1);
+    }
   }
 
   @Nested

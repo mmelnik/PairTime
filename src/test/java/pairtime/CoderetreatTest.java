@@ -3,6 +3,7 @@ package pairtime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -66,9 +67,13 @@ class CoderetreatTest {
 
   @Test
   void pairsInNextRoundsShouldNotContainPairsFromPrevious() {
+    coderetreat.setDoNotRepeatPairs(true);
+
+    var maxRoundCount = 3; //TODO: replace 4 with people.size(), based on formula max round count = n! / (k! * (n - k)!) / (n / 2)
+
     var previousRoundsPairs = new ArrayList<Pair>();
-    List<Pair> nextRoundPairs;
-    while (!(nextRoundPairs = coderetreat.nextRound().pairs()).isEmpty()) {
+    for (int roundNumber = 0; roundNumber < maxRoundCount; roundNumber++) {
+      var nextRoundPairs = coderetreat.nextRound().pairs();
       assertContainsNone(previousRoundsPairs, nextRoundPairs);
       previousRoundsPairs.addAll(nextRoundPairs);
     }
