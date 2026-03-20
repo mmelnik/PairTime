@@ -4,6 +4,15 @@ import java.util.List;
 
 public record Pair(String driver, String navigator) {
 
+  public Pair {
+    if (driver == null || driver.isEmpty() || navigator == null || navigator.isEmpty()) {
+      throw new IllegalArgumentException("Driver and Navigator cannot be null or empty");
+    }
+    if (driver.equals(navigator)) {
+      throw new IllegalArgumentException("Navigator and Driver is same person");
+    }
+  }
+
   public List<String> getPeople() {
     return List.of(driver, navigator);
   }

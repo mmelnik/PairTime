@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 
-import java.util.List;
-
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Pair class tests")
@@ -22,6 +21,14 @@ class PairTest {
 
       assertEquals("John", pair.driver());
       assertEquals("Alice", pair.navigator());
+    }
+
+    @Test
+    @DisplayName("Should throw error when driver and navigator is same person")
+    void pair_constructor_prevents_self_pairing() {
+      assertThatThrownBy(() -> new Pair("Вася", "Вася"))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("same person");
     }
   }
 
@@ -78,14 +85,6 @@ class PairTest {
     void shouldReturnFalseWhenPersonIsNull() {
       assertFalse(pair.contains(null));
     }
-
-    @Test
-    @DisplayName("Should handle empty strings correctly")
-    void shouldHandleEmptyStrings() {
-      Pair emptyNamesPair = new Pair("", "");
-      assertTrue(emptyNamesPair.contains(""));
-      assertFalse(emptyNamesPair.contains(" "));
-    }
   }
 
   @Nested
@@ -141,18 +140,20 @@ class PairTest {
       Pair pair = new Pair("John", "Alice");
       String notAPair = "not a pair";
 
-      assertNotEquals(pair, notAPair);
+      assertNotEquals(notAPair, pair);
     }
 
     @Test
-    @DisplayName("Should handle pairs with empty strings")
+    @DisplayName("Should handle pairs with null or empty strings")
     void shouldHandlePairsWithEmptyStrings() {
-      Pair pair1 = new Pair("", "");
-      Pair pair2 = new Pair("", "");
-      Pair pair3 = new Pair("", "value");
-
-      assertEquals(pair1, pair2);
-      assertNotEquals(pair1, pair3);
+      assertAll(() -> {
+        assertThrows(IllegalArgumentException.class, () -> new Pair(null, "notNull"));
+        assertThrows(IllegalArgumentException.class, () -> new Pair("notNull", null));
+        assertThrows(IllegalArgumentException.class, () -> new Pair(null, null));
+        assertThrows(IllegalArgumentException.class, () -> new Pair("", "notEmpty"));
+        assertThrows(IllegalArgumentException.class, () -> new Pair("notEmpty", ""));
+        assertThrows(IllegalArgumentException.class, () -> new Pair("", ""));
+      });
     }
   }
 
@@ -188,16 +189,6 @@ class PairTest {
       int expectedHashCode = "John".hashCode() + "Alice".hashCode();
       assertEquals(expectedHashCode, pair.hashCode());
     }
-
-    @Test
-    @DisplayName("Should handle empty strings in hashcode calculation")
-    void shouldHandleEmptyStringsInHashcode() {
-      Pair pair1 = new Pair("", "");
-      Pair pair2 = new Pair("", "");
-
-      assertEquals(pair1.hashCode(), pair2.hashCode());
-      assertEquals(0, "".hashCode() + "".hashCode());
-    }
   }
 
   @Nested
@@ -212,14 +203,6 @@ class PairTest {
 
       assertEquals(expected, pair.toString());
     }
-
-    @Test
-    @DisplayName("Should handle empty strings in toString")
-    void shouldHandleEmptyStrings() {
-      Pair pair = new Pair("", "");
-      String expected = "Pair: , ";
-
-      assertEquals(expected, pair.toString());
-    }
   }
+
 }
