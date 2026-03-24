@@ -1,5 +1,6 @@
 package pairtime.pairs;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -73,7 +74,15 @@ public class PeopleTest {
   class MakePairsWithExclusionsTests {
 
     @Test
-    void _2_pairs_created_from_4_people_when_1_pair_excluded() {
+    void _0_pairs_created_from_even_people_count_when_all_pairs_excluded() {
+      var actualPairs = new People(List.of("Вася", "Петя"))
+              .makePairsWithExclusions(List.of(new Pair("Вася", "Петя")));
+
+      assertThat(actualPairs).isEmpty();
+    }
+
+    @Test
+    void makes_all_possible_pairs_from_even_people_count_when_1_pair_excluded() {
       var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"))
               .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
 
@@ -83,15 +92,7 @@ public class PeopleTest {
     }
 
     @Test
-    void _0_pairs_created_from_2_people_when_their_pair_excluded() {
-      var pairs = new People(List.of("Вася", "Петя"))
-          .makePairsWithExclusions(List.of(new Pair("Вася", "Петя")));
-
-      assertThat(pairs).isEmpty();
-    }
-
-    @Test
-    void _1_pair_from_3_people_created_when_1_pair_excluded() {
+    void makes_all_possible_pairs_from_odd_people_count_when_1_pair_excluded() {
       var pairs = new People(List.of("Вася", "Петя", "Жора"))
           .makePairsWithExclusions(List.of(
               new Pair("Вася", "Жора"),
