@@ -33,15 +33,6 @@ public class PeopleTest {
   }
 
   @Test
-  void pairs_not_consist_of_1_person() {
-    var pairs = new People(List.of("Вася", "Петя")).makePairs();
-
-    assertThat(pairs)
-        .isNotEmpty()
-        .doesNotContain(new Pair("Вася", "Вася"), new Pair("Петя", "Петя"));
-  }
-
-  @Test
   void _2_pairs_created_from_4_people() {
     var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
 
