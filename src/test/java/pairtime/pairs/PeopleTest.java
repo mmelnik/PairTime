@@ -104,12 +104,40 @@ public class PeopleTest {
 
     @Test
     void makes_all_possible_pairs_from_even_people_count_when_1_pair_excluded() {
-      var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша"))
-              .makePairsWithExclusions(List.of(new Pair("Вася", "Саша")));
+      var people = new People(List.of("Вася", "Петя", "Жора", "Саша"));
+      var excludedPairs = List.of(
+          new Pair("Вася", "Петя"),
+          new Pair("Вася", "Жора"),
+          new Pair("Вася", "Саша"),
+          new Pair("Петя", "Жора"),
+          new Pair("Петя", "Саша"),
+          new Pair("Жора", "Саша")
+      );
 
-      assertThat(pairs)
-              .hasSize(2)
-              .doesNotContain(new Pair("Вася", "Саша"));
+      excludedPairs.forEach(excludedPair -> {
+        var actualParticipants = people.makePairsWithExclusions(List.of(excludedPair));
+
+        assertThat(actualParticipants)
+                .hasSize(2)
+                .doesNotContain(excludedPair);
+      });
+    }
+
+    @Test
+    void makes_all_possible_pairs_from_even_people_count_when_multiple_pair_excluded() {
+      var people = new People(List.of("Вася", "Петя", "Жора", "Саша", "Маша", "Иван"));
+
+      Stream.of(
+          List.of(new Pair("Вася", "Петя"), new Pair("Жора", "Саша"), new Pair("Маша", "Иван")),
+          List.of(new Pair("Вася", "Жора"), new Pair("Петя", "Маша"), new Pair("Саша", "Иван")),
+          List.of(new Pair("Вася", "Иван"), new Pair("Петя", "Саша"), new Pair("Жора", "Маша"))
+      ).forEach(excludedPairs -> {
+        var actualPairs = people.makePairsWithExclusions(excludedPairs);
+
+        assertThat(actualPairs)
+                .hasSize(3)
+                .doesNotContainAnyElementsOf(excludedPairs);
+      });
     }
 
     @Test
