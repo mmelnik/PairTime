@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 public class People {
 
@@ -28,13 +29,13 @@ public class People {
   }
 
   public List<Pair> makePairsWithExclusions(List<Pair> excludedPairs) {
-    var excluded = excludedPairs != null ? excludedPairs : List.<Pair>of();
+    var excluded = excludedPairs != null ? Set.copyOf(excludedPairs) : Set.<Pair>of();
 
     return pairUp(new ArrayList<>(value), List.of(), excluded).orElse(emptyList());
   }
 
   private Optional<List<Pair>> pairUp(List<String> availableParticipants,
-                                      List<Pair> accumulatedPairs, List<Pair> excludedPairs) {
+                                      List<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
 
     if (availableParticipants.size() < 2) {
       return Optional.of(accumulatedPairs);
