@@ -74,6 +74,26 @@ public class PeopleTest {
   class MakePairsWithExclusionsTests {
 
     @Test
+    void makePairsWithExclusions_handles_null() {
+      var people = new People(List.of("Вася", "Петя", "Жора"));
+      var expectedParticipants = people.makePairs();
+
+      var actualParticipants = people.makePairsWithExclusions(null);
+
+      assertThat(actualParticipants).isEqualTo(expectedParticipants);
+    }
+
+    @Test
+    void makePairsWithExclusions_handles_empty_list() {
+      var people = new People(List.of("Вася", "Петя", "Жора"));
+      var expectedParticipants = people.makePairs();
+
+      var actualParticipants = people.makePairsWithExclusions(emptyList());
+
+      assertThat(actualParticipants).isEqualTo(expectedParticipants);
+    }
+
+    @Test
     void _0_pairs_created_from_even_people_count_when_all_pairs_excluded() {
       var actualPairs = new People(List.of("Вася", "Петя"))
               .makePairsWithExclusions(List.of(new Pair("Вася", "Петя")));
