@@ -3,6 +3,7 @@ package pairtime.pairs;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +54,16 @@ public class PeopleTest {
       var actualPairs = new People(makeListOfPeople(size)).makePairs();
 
       assertThat(actualPairs).doesNotHaveDuplicates();
+    }
+
+    @Test
+    void makePairs_method_does_not_mutate_original_list() {
+      var originalList = Arrays.asList("Вася", "Петя", "Жора", "Саша");
+      var originalListCopy = new ArrayList<>(originalList);
+
+      new People(originalList).makePairs();
+
+      assertThat(originalList).isEqualTo(originalListCopy);
     }
   }
 
