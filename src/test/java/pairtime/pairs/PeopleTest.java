@@ -116,9 +116,9 @@ public class PeopleTest {
     void _0_pairs_created_from_odd_people_count_when_all_pairs_excluded() {
       var people = new People(List.of("Вася", "Петя", "Жора"));
       var allPossibleExcludedPairCombination = List.of(
-              new Pair("Вася", "Петя"),
-              new Pair("Вася", "Жора"),
-              new Pair("Петя", "Жора")
+          new Pair("Вася", "Петя"),
+          new Pair("Вася", "Жора"),
+          new Pair("Петя", "Жора")
       );
 
       var actualPairs = people.makePairsWithExclusions(allPossibleExcludedPairCombination);
