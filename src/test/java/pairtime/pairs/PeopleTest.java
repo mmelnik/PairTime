@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -127,14 +128,37 @@ public class PeopleTest {
 
     @Test
     void makes_all_possible_pairs_from_odd_people_count_when_1_pair_excluded() {
-      var pairs = new People(List.of("Вася", "Петя", "Жора"))
-          .makePairsWithExclusions(List.of(
-              new Pair("Вася", "Жора"),
-              new Pair("Петя", "Жора")
-          ));
+      var people = new People(List.of("Вася", "Петя", "Жора"));
 
-      assertThat(pairs).hasSize(1);
-      assertThat(pairs.getFirst()).isEqualTo(new Pair("Петя", "Вася"));
+      Stream.of(
+          new Pair("Вася", "Петя"),
+          new Pair("Вася", "Жора"),
+          new Pair("Петя", "Жора")
+      ).forEach(excludedPair -> {
+        var actualPairs = people.makePairsWithExclusions(List.of(excludedPair));
+
+        assertThat(actualPairs)
+                .hasSize(1)
+                .doesNotContain(excludedPair);
+      });
+    }
+
+    @Test
+    void makes_all_possible_pairs_from_odd_people_count_when_multiple_pair_excluded() {
+      var people = new People(List.of("Вася", "Петя", "Жора"));
+
+      Stream.of(
+          List.of(new Pair("Жора", "Вася"), new Pair("Жора", "Петя")),
+          List.of(new Pair("Вася", "Петя"), new Pair("Вася", "Жора")),
+          List.of(new Pair("Петя", "Вася"), new Pair("Петя", "Жора"))
+      ).forEach(excludedPairs -> {
+        var actualPairs = people.makePairsWithExclusions(excludedPairs);
+
+        assertThat(actualPairs).doesNotContainAnyElementsOf(excludedPairs);
+        assertThat(actualPairs)
+            .overridingErrorMessage("Expected size 1, but was %d for excluded pairs: %s", actualPairs.size(), excludedPairs)
+            .hasSize(1);
+      });
     }
 
     @Test
