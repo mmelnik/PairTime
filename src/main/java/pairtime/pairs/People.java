@@ -31,35 +31,48 @@ public class People {
   public List<Pair> makePairsWithExclusions(List<Pair> excludedPairs) {
     var excluded = excludedPairs != null ? Set.copyOf(excludedPairs) : Set.<Pair>of();
 
-    return pairUp(new ArrayList<>(value), List.of(), excluded).orElse(emptyList());
+    return findPairsForNextDriver(new ArrayList<>(value), List.of(), excluded).orElse(emptyList());
   }
 
-  private Optional<List<Pair>> pairUp(List<String> availableParticipants,
-                                      List<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
-
+  private Optional<List<Pair>> findPairsForNextDriver(List<String> availableParticipants,
+                                                      List<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
     if (availableParticipants.size() < 2) {
       return Optional.of(accumulatedPairs);
     }
 
-    return availableParticipants.stream().flatMap(driver -> {
-
+    for (var driver : availableParticipants) {
       var navigatorCandidates = new ArrayList<>(availableParticipants);
       navigatorCandidates.remove(driver);
 
-      return navigatorCandidates.stream()
-              .map(navigator -> new Pair(driver, navigator))
-              .filter(pair -> !excludedPairs.contains(pair))
-              .flatMap(pair -> {
+      var pairs = findPairsForNextNavigator(driver, navigatorCandidates, accumulatedPairs, excludedPairs);
+      if (pairs.isPresent()) {
+        return pairs;
+      }
+    }
+    return Optional.empty();
+  }
 
-                var nextAvailableParticipants = new ArrayList<>(navigatorCandidates);
-                nextAvailableParticipants.remove(pair.navigator());
+  private Optional<List<Pair>> findPairsForNextNavigator(String driver, List<String> navigatorCandidates,
+                                                         List<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
+    for (var navigator : navigatorCandidates) {
+      var pair = new Pair(driver, navigator);
 
-                var nextAccumulatedPairs = new ArrayList<>(accumulatedPairs);
-                nextAccumulatedPairs.add(pair);
+      if (excludedPairs.contains(pair)) {
+        continue;
+      }
 
-                return pairUp(nextAvailableParticipants, nextAccumulatedPairs, excludedPairs).stream();
-            });
-    }).findFirst();
+      var nextAvailableParticipants = new ArrayList<>(navigatorCandidates);
+      nextAvailableParticipants.remove(navigator);
+
+      var nextAccumulatedPairs = new ArrayList<>(accumulatedPairs);
+      nextAccumulatedPairs.add(pair);
+
+      var pairs = findPairsForNextDriver(nextAvailableParticipants, nextAccumulatedPairs, excludedPairs);
+      if (pairs.isPresent()) {
+        return pairs;
+      }
+    }
+    return Optional.empty();
   }
 
   public void shuffle() {
