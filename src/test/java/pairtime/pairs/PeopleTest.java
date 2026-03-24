@@ -112,6 +112,20 @@ public class PeopleTest {
     }
 
     @Test
+    void _0_pairs_created_from_odd_people_count_when_all_pairs_excluded() {
+      var people = new People(List.of("Вася", "Петя", "Жора"));
+      var allPossibleExcludedPairCombination = List.of(
+              new Pair("Вася", "Петя"),
+              new Pair("Вася", "Жора"),
+              new Pair("Петя", "Жора")
+      );
+
+      var actualPairs = people.makePairsWithExclusions(allPossibleExcludedPairCombination);
+
+      assertThat(actualPairs).isEmpty();
+    }
+
+    @Test
     void makes_all_possible_pairs_from_odd_people_count_when_1_pair_excluded() {
       var pairs = new People(List.of("Вася", "Петя", "Жора"))
           .makePairsWithExclusions(List.of(
@@ -121,6 +135,41 @@ public class PeopleTest {
 
       assertThat(pairs).hasSize(1);
       assertThat(pairs.getFirst()).isEqualTo(new Pair("Петя", "Вася"));
+    }
+
+    @Test
+    void handles_excludedPairs_with_reversed_order() {
+      var excludedPairs = List.of(new Pair("Петя", "Вася"));
+      var excludedPaisInBothOrders = List.of(new Pair("Вася", "Петя"), new Pair("Петя", "Вася"));
+
+      var actualPairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairsWithExclusions(excludedPairs);
+
+      assertThat(actualPairs).doesNotContainAnyElementsOf(excludedPaisInBothOrders);
+    }
+
+    @Test
+    void handles_duplicated_excluded_pairs() {
+      var people = new People(List.of("Вася", "Петя", "Жора"));
+      var excludedPairsWithDuplicates = List.of(
+              new Pair("Вася", "Петя"),
+              new Pair("Вася", "Петя"),
+              new Pair("Петя", "Вася")
+      );
+
+      var actualPairs = people.makePairsWithExclusions(excludedPairsWithDuplicates);
+
+      assertThat(actualPairs).hasSize(1);
+      assertThat(actualPairs.getFirst()).isEqualTo(new Pair("Вася", "Жора"));
+    }
+
+    @Test
+    void makePairsWithExclusions_method_does_not_mutate_original_list() {
+      var originalList = Arrays.asList("Вася", "Петя", "Жора", "Саша");
+      var originalListCopy = new ArrayList<>(originalList);
+
+      new People(originalList).makePairsWithExclusions(List.of(new Pair("Вася", "Жора")));
+
+      assertThat(originalList).isEqualTo(originalListCopy);
     }
 
     @Test
