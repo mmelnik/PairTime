@@ -64,4 +64,8 @@ public class People {
     Collections.shuffle(shuffled, random);
     value = shuffled;
   }
+
+  public List<String> getValue() {
+    return new ArrayList<>(value);
+  }
 }

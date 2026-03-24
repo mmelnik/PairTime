@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -110,6 +111,48 @@ public class PeopleTest {
       var pairs = new People(List.of("Вася", "Петя", "Жора")).makePairsWithExclusions(excludedPairs);
 
       assertThat(pairs).doesNotContainAnyElementsOf(excludedPairs);
+    }
+  }
+
+  @Nested
+  @DisplayName("shuffle() method tests")
+  class ShuffleTests {
+
+    @Test
+    void shuffle_randomly_reorders_people() {
+      var fixedRandom = new Random(42);
+      var people = new People(List.of("Вася", "Петя", "Жора", "Саша", "Маша", "Иван"), fixedRandom);
+
+      for (int tryNumber = 0; tryNumber < 10; tryNumber++) {
+        var expectedParticipants = people.getValue();
+        people.shuffle();
+        var actualParticipants = people.getValue();
+
+        assertThat(actualParticipants)
+                .isNotEqualTo(expectedParticipants)
+                .containsExactlyInAnyOrderElementsOf(expectedParticipants);
+      }
+    }
+
+    @Test
+    void shuffle_with_fixed_random_produces_deterministic_order() {
+      var people1 = new People(List.of("Вася", "Петя", "Жора", "Саша"), new Random(42));
+      var people2 = new People(List.of("Вася", "Петя", "Жора", "Саша"), new Random(42));
+
+      people1.shuffle();
+      people2.shuffle();
+
+      assertThat(people1.getValue()).isEqualTo(people2.getValue());
+    }
+
+    @Test
+    void shuffle_method_does_not_mutate_original_list() {
+      var originalList = Arrays.asList("Вася", "Петя", "Жора", "Саша");
+      var originalListCopy = new ArrayList<>(originalList);
+
+      new People(originalList).shuffle();
+
+      assertThat(originalList).isEqualTo(originalListCopy);
     }
   }
 
