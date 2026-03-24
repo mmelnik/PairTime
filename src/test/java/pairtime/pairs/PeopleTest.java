@@ -1,13 +1,15 @@
 package pairtime.pairs;
 
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class PeopleTest {
 
@@ -15,53 +17,42 @@ public class PeopleTest {
   @DisplayName("makePairs() method tests")
   class MakePairsTests {
 
-    @Test
-    void _0_pairs_created_from_0_people() {
-      var pairs = new People(List.of()).makePairs();
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+    void makePairs_creates_max_possible_count_of_pairs(int size) {
+      var actualPairs = new People(makeListOfPeople(size)).makePairs();
 
-      assertThat(pairs).isEmpty();
+      assertThat(actualPairs).hasSize(size / 2);
     }
 
-    @Test
-    void _0_pairs_created_from_1_person() {
-      var pairs = new People(List.of("Вася")).makePairs();
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+    void pairs_not_include_same_person_twice(int size) {
+      var actualParticipants = new People(makeListOfPeople(size)).makePairs().stream()
+              .flatMap(p -> p.getPeople().stream())
+              .toList();
 
-      assertThat(pairs).isEmpty();
+      assertThat(actualParticipants).doesNotHaveDuplicates();
     }
 
-    @Test
-    void _1_pair_created_from_2_people() {
-      var pairs = new People(List.of("Вася", "Петя")).makePairs();
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+    void pairs_made_from_people_in_original_list(int size) {
+      var expectedParticipants = makeListOfPeople(size);
 
-      assertThat(pairs)
-          .hasSize(1)
-          .contains(new Pair("Вася", "Петя"));
+      var actualParticipants = new People(expectedParticipants).makePairs().stream()
+              .flatMap(p -> p.getPeople().stream())
+              .toList();
+
+      assertThat(actualParticipants).isSubsetOf(expectedParticipants);
     }
 
-    @Test
-    void _2_pairs_created_from_4_people() {
-      var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+    void pairs_does_not_have_duplicates(int size) {
+      var actualPairs = new People(makeListOfPeople(size)).makePairs();
 
-      assertThat(pairs).hasSize(2);
-    }
-
-    @Test
-    void pairs_created_from_4_people_are_not_equal() {
-      var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
-
-      assertThat(pairs.get(0)).isNotEqualTo(pairs.get(1));
-    }
-
-    @Test
-    void pairs_not_include_same_person_twice() {
-      var pairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairs();
-      var participants = pairs.stream()
-          .flatMap(pair -> pair.getPeople().stream())
-          .collect(toList());
-
-      assertThat(participants)
-          .hasSize(4)
-          .containsExactlyInAnyOrder("Вася", "Петя", "Жора", "Саша");
+      assertThat(actualPairs).doesNotHaveDuplicates();
     }
   }
 
@@ -109,6 +100,14 @@ public class PeopleTest {
 
       assertThat(pairs).doesNotContainAnyElementsOf(excludedPairs);
     }
+  }
+
+  private List<String> makeListOfPeople(int size) {
+    var result = new ArrayList<String>();
+    for (int number = 0; number < size; number++) {
+      result.add("Person" + number);
+    }
+    return result;
   }
 
 }
