@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 public class People {
 
@@ -33,32 +34,34 @@ public class People {
     return pairUp(new ArrayList<>(value), List.of(), excluded).orElse(emptyList());
   }
 
-  private Optional<List<Pair>> pairUp(List<String> available, List<Pair> accumulated, List<Pair> excluded) {
-    if (available.size() < 2) {
+  private Optional<List<Pair>> pairUp(List<String> availableParticipants,
+                                      List<Pair> accumulated, List<Pair> excludedPairs) {
+
+    if (availableParticipants.size() < 2) {
       return Optional.of(accumulated);
     }
 
-    var driver = available.removeFirst();
+    var driver = availableParticipants.removeFirst();
 
-    return available.stream()
+    return availableParticipants.stream()
       .map(navigator -> new Pair(driver, navigator))
-      .filter(pair -> !excluded.contains(pair))
+      .filter(pair -> !excludedPairs.contains(pair))
       .flatMap(pair -> {
-        var remaining = new ArrayList<>(available);
-        remaining.remove(pair.navigator());
+        var nextAvailableParticipants = new ArrayList<>(availableParticipants);
+        nextAvailableParticipants.remove(pair.navigator());
 
-        var result = new ArrayList<>(accumulated);
-        result.add(pair);
+        var nextAccumulatedPairs = new ArrayList<>(accumulated);
+        nextAccumulatedPairs.add(pair);
 
-        return pairUp(remaining, result, excluded).stream();
+        return pairUp(nextAvailableParticipants, nextAccumulatedPairs, excludedPairs).stream();
       })
       .findFirst()
-      .or(() -> pairUp(available, accumulated, excluded));
+      .or(() -> pairUp(availableParticipants, accumulated, excludedPairs));
   }
 
-    public void shuffle() {
-        var shuffled = new ArrayList<>(value);
-        Collections.shuffle(shuffled, random);
-        value = shuffled;
-    }
+  public void shuffle() {
+    var shuffled = new ArrayList<>(value);
+    Collections.shuffle(shuffled, random);
+    value = shuffled;
+  }
 }
