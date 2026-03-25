@@ -29,7 +29,12 @@ public class Coderetreat {
   }
 
   public Round nextRound() {
-    rounds.add(new Round(rounds.size() + 1, makePairs()));
+    var pairs = makePairs();
+    if (pairs.isEmpty()) {
+      throw new IllegalStateException("No more pairs available.");
+    }
+
+    rounds.add(new Round(rounds.size() + 1, pairs));
     return rounds.getLast();
   }
 
