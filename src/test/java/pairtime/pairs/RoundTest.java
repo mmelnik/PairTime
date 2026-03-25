@@ -2,6 +2,7 @@ package pairtime.pairs;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
@@ -26,6 +27,22 @@ class RoundTest {
       var actualNumber = new Round(expectedNumber, Set.of(new Pair("A", "B"))).number();
 
       assertThat(actualNumber).isEqualTo(expectedNumber);
+    }
+
+    @Test
+    void roundNumberCannotBeZeroOrNegativeIntegerNumber() {
+      var pairs = Set.of(new Pair("A", "B"));
+      assertAll(
+          () -> assertThrows(IllegalArgumentException.class, () -> new Round(0, pairs)),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Round(-1, pairs)),
+          () -> assertThrows(IllegalArgumentException.class, () -> new Round(Integer.MIN_VALUE, pairs))
+      );
+    }
+
+    @Test
+    void roundNumberCanBeAnyPositiveIntegerNumber() {
+      assertDoesNotThrow(() -> new Round(1, Set.of(new Pair("A", "B"))));
+      assertDoesNotThrow(() -> new Round(Integer.MAX_VALUE, Set.of(new Pair("A", "B"))));
     }
 
     @Test

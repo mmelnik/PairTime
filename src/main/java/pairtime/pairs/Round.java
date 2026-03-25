@@ -6,9 +6,9 @@ import java.util.Set;
 public record Round(int number, Set<Pair> pairs) {
 
   public Round(int number, Set<Pair> pairs) {
-    if (pairs == null || pairs.isEmpty()) {
-      throw new IllegalArgumentException("pairs cannot be empty");
-    }
+    if (number < 1) throw new IllegalArgumentException("Round number must be positive");
+    if (pairs == null || pairs.isEmpty()) throw new IllegalArgumentException("Pairs cannot be empty");
+
     this.number = number;
     this.pairs = new HashSet<>(pairs);
   }
