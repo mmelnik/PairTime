@@ -40,6 +40,11 @@ class RoundTest {
     }
 
     @Test
+    void roundCannotHaveNullPairs() {
+      assertThrows(IllegalArgumentException.class, () -> new Round(2, null));
+    }
+
+    @Test
     void roundCannotHaveEmptyPairs() {
       var pairs = List.<Pair>of();
       assertThrows(IllegalArgumentException.class, () -> new Round(2, pairs));

@@ -6,7 +6,7 @@ import java.util.List;
 public record Round(int number, List<Pair> pairs) {
 
     public Round(int number, List<Pair> pairs) {
-      if (pairs.isEmpty()) {
+      if (pairs == null || pairs.isEmpty()) {
         throw new IllegalArgumentException("pairs cannot be empty");
       }
       this.number = number;
