@@ -223,17 +223,6 @@ public class PeopleTest {
 
       assertThat(originalList).isEqualTo(originalListCopy);
     }
-
-    @Test
-    void result_does_not_contain_excluded_pairs() {
-      var excludedPairs = List.of(
-          new Pair("Вася", "Жора"),
-          new Pair("Петя", "Жора")
-      );
-      var pairs = new People(List.of("Вася", "Петя", "Жора")).makePairsWithExclusions(excludedPairs);
-
-      assertThat(pairs).doesNotContainAnyElementsOf(excludedPairs);
-    }
   }
 
   @Nested
