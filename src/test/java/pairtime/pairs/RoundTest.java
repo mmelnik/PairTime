@@ -21,10 +21,11 @@ class RoundTest {
 
     @Test
     void roundNumberShouldBeStoredCorrectly() {
-      int expectedNumber = 5;
-      var round = new Round(expectedNumber, Set.of(new Pair("A", "B")));
+      var expectedNumber = 5;
 
-      assertThat(round.number()).isEqualTo(expectedNumber);
+      var actualNumber = new Round(expectedNumber, Set.of(new Pair("A", "B"))).number();
+
+      assertThat(actualNumber).isEqualTo(expectedNumber);
     }
 
     @Test
@@ -34,9 +35,9 @@ class RoundTest {
           new Pair("Charlie", "Diana")
       ));
 
-      var actual = new Round(1, expectedPairs).pairs();
+      var actualPairs = new Round(1, expectedPairs).pairs();
 
-      assertThat(actual)
+      assertThat(actualPairs)
           .isEqualTo(expectedPairs)
           .isNotSameAs(expectedPairs);
     }
@@ -53,13 +54,14 @@ class RoundTest {
     }
 
     @Test
-    void roundPairsShouldNotReactOnOriginalListMutation() {
+    void innerPairsShouldNotReactOnOriginalListMutation() {
       var originalPairs = new HashSet<>(Set.of(new Pair("A", "B")));
       var round = new Round(1, originalPairs);
 
       originalPairs.add(new Pair("C", "D"));
+      var actualPairs = round.pairs();
 
-      assertThat(round.pairs())
+      assertThat(actualPairs)
               .hasSize(1)
               .doesNotContain(new Pair("C", "D"));
     }
