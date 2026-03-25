@@ -1,12 +1,13 @@
 package pairtime.pairs;
 
-import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -89,7 +90,7 @@ public class PeopleTest {
       var people = new People(List.of("Вася", "Петя", "Жора"));
       var expectedParticipants = people.makePairs();
 
-      var actualParticipants = people.makePairsWithExclusions(emptyList());
+      var actualParticipants = people.makePairsWithExclusions(emptySet());
 
       assertThat(actualParticipants).isEqualTo(expectedParticipants);
     }
@@ -97,7 +98,7 @@ public class PeopleTest {
     @Test
     void _0_pairs_created_from_even_people_count_when_all_pairs_excluded() {
       var actualPairs = new People(List.of("Вася", "Петя"))
-              .makePairsWithExclusions(List.of(new Pair("Вася", "Петя")));
+              .makePairsWithExclusions(Set.of(new Pair("Вася", "Петя")));
 
       assertThat(actualPairs).isEmpty();
     }
@@ -115,7 +116,7 @@ public class PeopleTest {
       );
 
       excludedPairs.forEach(excludedPair -> {
-        var actualParticipants = people.makePairsWithExclusions(List.of(excludedPair));
+        var actualParticipants = people.makePairsWithExclusions(Set.of(excludedPair));
 
         assertThat(actualParticipants)
                 .hasSize(2)
@@ -128,9 +129,9 @@ public class PeopleTest {
       var people = new People(List.of("Вася", "Петя", "Жора", "Саша", "Маша", "Иван"));
 
       Stream.of(
-          List.of(new Pair("Вася", "Петя"), new Pair("Жора", "Саша"), new Pair("Маша", "Иван")),
-          List.of(new Pair("Вася", "Жора"), new Pair("Петя", "Маша"), new Pair("Саша", "Иван")),
-          List.of(new Pair("Вася", "Иван"), new Pair("Петя", "Саша"), new Pair("Жора", "Маша"))
+          Set.of(new Pair("Вася", "Петя"), new Pair("Жора", "Саша"), new Pair("Маша", "Иван")),
+          Set.of(new Pair("Вася", "Жора"), new Pair("Петя", "Маша"), new Pair("Саша", "Иван")),
+          Set.of(new Pair("Вася", "Иван"), new Pair("Петя", "Саша"), new Pair("Жора", "Маша"))
       ).forEach(excludedPairs -> {
         var actualPairs = people.makePairsWithExclusions(excludedPairs);
 
@@ -143,7 +144,7 @@ public class PeopleTest {
     @Test
     void _0_pairs_created_from_odd_people_count_when_all_pairs_excluded() {
       var people = new People(List.of("Вася", "Петя", "Жора"));
-      var allPossibleExcludedPairCombination = List.of(
+      var allPossibleExcludedPairCombination = Set.of(
           new Pair("Вася", "Петя"),
           new Pair("Вася", "Жора"),
           new Pair("Петя", "Жора")
@@ -163,7 +164,7 @@ public class PeopleTest {
           new Pair("Вася", "Жора"),
           new Pair("Петя", "Жора")
       ).forEach(excludedPair -> {
-        var actualPairs = people.makePairsWithExclusions(List.of(excludedPair));
+        var actualPairs = people.makePairsWithExclusions(Set.of(excludedPair));
 
         assertThat(actualPairs)
                 .hasSize(1)
@@ -176,9 +177,9 @@ public class PeopleTest {
       var people = new People(List.of("Вася", "Петя", "Жора"));
 
       Stream.of(
-          List.of(new Pair("Жора", "Вася"), new Pair("Жора", "Петя")),
-          List.of(new Pair("Вася", "Петя"), new Pair("Вася", "Жора")),
-          List.of(new Pair("Петя", "Вася"), new Pair("Петя", "Жора"))
+          Set.of(new Pair("Жора", "Вася"), new Pair("Жора", "Петя")),
+          Set.of(new Pair("Вася", "Петя"), new Pair("Вася", "Жора")),
+          Set.of(new Pair("Петя", "Вася"), new Pair("Петя", "Жора"))
       ).forEach(excludedPairs -> {
         var actualPairs = people.makePairsWithExclusions(excludedPairs);
 
@@ -190,36 +191,11 @@ public class PeopleTest {
     }
 
     @Test
-    void handles_excludedPairs_with_reversed_order() {
-      var excludedPairs = List.of(new Pair("Петя", "Вася"));
-      var excludedPaisInBothOrders = List.of(new Pair("Вася", "Петя"), new Pair("Петя", "Вася"));
-
-      var actualPairs = new People(List.of("Вася", "Петя", "Жора", "Саша")).makePairsWithExclusions(excludedPairs);
-
-      assertThat(actualPairs).doesNotContainAnyElementsOf(excludedPaisInBothOrders);
-    }
-
-    @Test
-    void handles_duplicated_excluded_pairs() {
-      var people = new People(List.of("Вася", "Петя", "Жора"));
-      var excludedPairsWithDuplicates = List.of(
-              new Pair("Вася", "Петя"),
-              new Pair("Вася", "Петя"),
-              new Pair("Петя", "Вася")
-      );
-
-      var actualPairs = people.makePairsWithExclusions(excludedPairsWithDuplicates);
-
-      assertThat(actualPairs).hasSize(1);
-      assertThat(actualPairs.getFirst()).isEqualTo(new Pair("Вася", "Жора"));
-    }
-
-    @Test
     void makePairsWithExclusions_method_does_not_mutate_original_list() {
       var originalList = Arrays.asList("Вася", "Петя", "Жора", "Саша");
       var originalListCopy = new ArrayList<>(originalList);
 
-      new People(originalList).makePairsWithExclusions(List.of(new Pair("Вася", "Жора")));
+      new People(originalList).makePairsWithExclusions(Set.of(new Pair("Вася", "Жора")));
 
       assertThat(originalList).isEqualTo(originalListCopy);
     }

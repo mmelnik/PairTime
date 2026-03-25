@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -20,17 +21,17 @@ class RoundTest {
     @Test
     void roundNumberShouldBeStoredCorrectly() {
       int expectedNumber = 5;
-      var round = new Round(expectedNumber, List.of(new Pair("A", "B")));
+      var round = new Round(expectedNumber, Set.of(new Pair("A", "B")));
 
       assertEquals(expectedNumber, round.number());
     }
 
     @Test
     void pairsListShouldBeStoredCorrectly() {
-      var expectedPairs = List.of(
+      var expectedPairs = new HashSet<>(Set.of(
           new Pair("Alice", "Bob"),
           new Pair("Charlie", "Diana")
-      );
+      ));
 
       var actual = new Round(1, expectedPairs).pairs();
 
@@ -46,18 +47,20 @@ class RoundTest {
 
     @Test
     void roundCannotHaveEmptyPairs() {
-      var pairs = List.<Pair>of();
+      var pairs = Set.<Pair>of();
       assertThrows(IllegalArgumentException.class, () -> new Round(2, pairs));
     }
 
     @Test
-    void roundPairsShouldBeImmutable() {
-      var originalPairs = new ArrayList<>(List.of(new Pair("A", "B")));
+    void roundPairsShouldNotReactOnOriginalListMutation() {
+      var originalPairs = new HashSet<>(Set.of(new Pair("A", "B")));
       var round = new Round(1, originalPairs);
 
       originalPairs.add(new Pair("C", "D"));
 
-      assertThat(round.pairs()).hasSize(1);
+      assertThat(round.pairs())
+              .hasSize(1)
+              .doesNotContain(new Pair("C", "D"));
     }
   }
 
@@ -66,46 +69,32 @@ class RoundTest {
   class ToStringTests {
 
     @Test
-    void currentRoundPairsShouldBePrintedCorrectly() {
-      var round = new Round(0, List.of(
-          new Pair("Вася", "Петя"),
-          new Pair("Жора", "Саша"))
-      );
-
-      assertThat(round).hasToString(
-          "#1 Pair: Вася, Петя\n"
-              + "#2 Pair: Жора, Саша\n"
-      );
-    }
-
-    @Test
     void roundWithSinglePairShouldBePrintedCorrectly() {
-      var round = new Round(3, List.of(new Pair("Один", "Два")));
+      var round = new Round(3, Set.of(new Pair("Один", "Два")));
 
       assertThat(round).hasToString("#1 Pair: Один, Два\n");
     }
 
     @Test
     void roundWithManyPairsShouldBePrintedCorrectly() {
-      var manyPairs = new ArrayList<Pair>();
-      for (int i = 0; i < 10; i++) {
-        manyPairs.add(new Pair("User" + i, "Partner" + i));
+      var manyPairs = new HashSet<Pair>();
+      var expectedStrings = new ArrayList<String>();
+
+      for (int pairIndex = 0; pairIndex < 10; pairIndex++) {
+        manyPairs.add(new Pair("User" + pairIndex, "Partner" + pairIndex));
+        expectedStrings.add("#" + (pairIndex + 1));
+        expectedStrings.add("Pair: " + "User" + pairIndex + ", Partner" + pairIndex);
       }
 
-      var result = new Round(4, manyPairs).toString();
-      var lines = result.split("\n");
+      var actualString = new Round(4, manyPairs).toString();
 
-      assertAll(
-          () -> assertEquals(10, lines.length),
-          () -> assertThat(lines[0]).startsWith("#1 Pair: User0, Partner0"),
-          () -> assertThat(lines[5]).startsWith("#6 Pair: User5, Partner5"),
-          () -> assertThat(lines[9]).startsWith("#10 Pair: User9, Partner9")
-      );
+      assertThat(actualString).contains(expectedStrings);
+      assertThat(actualString.split("\n")).hasSize(10);
     }
 
     @Test
     void roundToStringWithSpecialCharacters() {
-      var round = new Round(6, List.of(
+      var round = new Round(6, Set.of(
           new Pair("Имя с пробелами", "Фамилия-с-дефисом"),
           new Pair("O'Connor", "Smith-Johnson"))
       );
@@ -113,8 +102,8 @@ class RoundTest {
       var result = round.toString();
 
       assertAll(
-          () -> assertThat(result).contains("#1 Pair: Имя с пробелами, Фамилия-с-дефисом"),
-          () -> assertThat(result).contains("#2 Pair: O'Connor, Smith-Johnson")
+          () -> assertThat(result).contains("Pair: Имя с пробелами, Фамилия-с-дефисом"),
+          () -> assertThat(result).contains("Pair: O'Connor, Smith-Johnson")
       );
     }
   }

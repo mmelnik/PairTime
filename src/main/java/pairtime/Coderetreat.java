@@ -1,12 +1,13 @@
 package pairtime;
 
-import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import pairtime.pairs.Pair;
@@ -46,22 +47,22 @@ public class Coderetreat {
     return nextRound();
   }
 
-  private List<Pair> makePairs() {
+  private Set<Pair> makePairs() {
     if (doNotRepeatPairs) {
       return people.makePairsWithExclusions(pairsFromPreviousRounds());
     }
     return people.makePairs();
   }
 
-  private List<Pair> pairsFromPreviousRounds() {
+  private Set<Pair> pairsFromPreviousRounds() {
     return rounds.stream()
         .map(Round::pairs)
         .flatMap(Collection::stream)
-        .collect(Collectors.toList());
+        .collect(Collectors.toSet());
   }
 
-  public List<Pair> getCurrentRoundPairs() {
-    return rounds.isEmpty() ? emptyList() : rounds.getLast().pairs();
+  public Set<Pair> getCurrentRoundPairs() {
+    return rounds.isEmpty() ? emptySet() : rounds.getLast().pairs();
   }
 
   public String printCurrentRound() {

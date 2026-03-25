@@ -1,9 +1,10 @@
 package pairtime.pairs;
 
-import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -24,18 +25,18 @@ public class People {
     this(people, new Random());
   }
 
-  public List<Pair> makePairs() {
-    return makePairsWithExclusions(emptyList());
+  public Set<Pair> makePairs() {
+    return makePairsWithExclusions(emptySet());
   }
 
-  public List<Pair> makePairsWithExclusions(List<Pair> excludedPairs) {
+  public Set<Pair> makePairsWithExclusions(Set<Pair> excludedPairs) {
     var excluded = excludedPairs != null ? Set.copyOf(excludedPairs) : Set.<Pair>of();
 
-    return findPairsForNextDriver(new ArrayList<>(value), List.of(), excluded).orElse(emptyList());
+    return findPairsForNextDriver(value, Set.of(), excluded).orElse(emptySet());
   }
 
-  private Optional<List<Pair>> findPairsForNextDriver(List<String> availableParticipants,
-                                                      List<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
+  private Optional<Set<Pair>> findPairsForNextDriver(List<String> availableParticipants,
+                                                     Set<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
     if (availableParticipants.size() < 2) {
       return Optional.of(accumulatedPairs);
     }
@@ -52,8 +53,8 @@ public class People {
     return Optional.empty();
   }
 
-  private Optional<List<Pair>> findPairsForNextNavigator(String driver, List<String> navigatorCandidates,
-                                                         List<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
+  private Optional<Set<Pair>> findPairsForNextNavigator(String driver, List<String> navigatorCandidates,
+                                                        Set<Pair> accumulatedPairs, Set<Pair> excludedPairs) {
     for (var navigator : navigatorCandidates) {
       var pair = new Pair(driver, navigator);
 
@@ -64,7 +65,7 @@ public class People {
       var nextAvailableParticipants = new ArrayList<>(navigatorCandidates);
       nextAvailableParticipants.remove(navigator);
 
-      var nextAccumulatedPairs = new ArrayList<>(accumulatedPairs);
+      var nextAccumulatedPairs = new HashSet<>(accumulatedPairs);
       nextAccumulatedPairs.add(pair);
 
       var pairs = findPairsForNextDriver(nextAvailableParticipants, nextAccumulatedPairs, excludedPairs);

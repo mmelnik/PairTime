@@ -2,10 +2,10 @@ package pairtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +72,7 @@ class CoderetreatTest {
 
     var maxRoundCount = 3; //TODO: replace 4 with people.size(), based on formula max round count = n! / (k! * (n - k)!) / (n / 2)
 
-    var previousRoundsPairs = new ArrayList<Pair>();
+    var previousRoundsPairs = new HashSet<Pair>();
     for (int roundNumber = 0; roundNumber < maxRoundCount; roundNumber++) {
       var nextRoundPairs = coderetreat.nextRound().pairs();
       assertContainsNone(previousRoundsPairs, nextRoundPairs);
@@ -85,19 +85,14 @@ class CoderetreatTest {
     coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"));
     coderetreat.nextRound();
 
-    assertThat(coderetreat.printCurrentRound()).isEqualTo(
-        """
-        #1 Pair: Вася, Петя
-        #2 Pair: Жора, Саша
-        """
-    );
+    assertThat(coderetreat.printCurrentRound()).contains("#1 ", "#2 ", "Pair: Вася, Петя", "Pair: Жора, Саша");
   }
 
-  private void assertContainsAny(List<Pair> list1, List<Pair> list2) {
-    assertThat(list1).containsAnyElementsOf(list2);
+  private void assertContainsAny(Set<Pair> set1, Set<Pair> set2) {
+    assertThat(set1).containsAnyElementsOf(set2);
   }
 
-  private void assertContainsNone(List<Pair> list1, List<Pair> list2) {
-    assertThat(list1).doesNotContainAnyElementsOf(list2);
+  private void assertContainsNone(Set<Pair> set1, Set<Pair> set2) {
+    assertThat(set1).doesNotContainAnyElementsOf(set2);
   }
 }

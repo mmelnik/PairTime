@@ -1,26 +1,25 @@
 package pairtime.pairs;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public record Round(int number, List<Pair> pairs) {
+public record Round(int number, Set<Pair> pairs) {
 
-    public Round(int number, List<Pair> pairs) {
-      if (pairs == null || pairs.isEmpty()) {
-        throw new IllegalArgumentException("pairs cannot be empty");
-      }
-      this.number = number;
-      this.pairs = new ArrayList<>(pairs);
+  public Round(int number, Set<Pair> pairs) {
+    if (pairs == null || pairs.isEmpty()) {
+      throw new IllegalArgumentException("pairs cannot be empty");
     }
+    this.number = number;
+    this.pairs = new HashSet<>(pairs);
+  }
 
-    @Override
+  @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    for (int pairNumber = 0; pairNumber < pairs.size(); pairNumber++) {
-      sb.append("#").append(pairNumber + 1).append(" ")
-          .append(pairs.get(pairNumber).toString())
-          .append("\n");
+    int pairNumber = 0;
+    var stringBuilder = new StringBuilder();
+    for (Pair pair : pairs) {
+        stringBuilder.append("#").append(++pairNumber).append(" ").append(pair.toString()).append("\n");
     }
-    return sb.toString();
+    return stringBuilder.toString();
   }
 }
