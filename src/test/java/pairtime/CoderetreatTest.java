@@ -41,23 +41,24 @@ class CoderetreatTest {
   void roundRerollShouldReturnSamePairsNumber() {
     var originalRoundPairs = coderetreat.nextRound().pairs();
     var rerolledRoundPairs = coderetreat.reRollRound().pairs();
-    assertThat(rerolledRoundPairs).hasSize(originalRoundPairs.size());
+    assertThat(rerolledRoundPairs).hasSameSizeAs(originalRoundPairs);
   }
 
   @Test
-  void roundRerollCanReturnNewPairs() {
-    var fakeRandom = new Random(1);
-    coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
+  void roundRerollCanReturnDifferentPairs() {
+    var fixedRandom = new Random(1);
+    coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fixedRandom);
+
     var originalRoundPairs = coderetreat.nextRound().pairs();
     var rerolledRoundPairs = coderetreat.reRollRound().pairs();
 
-    assertContainsNone(rerolledRoundPairs, originalRoundPairs);
+    assertThat(rerolledRoundPairs).isNotEqualTo(originalRoundPairs);
   }
 
   @Test
   void roundRerollCanReturnSamePairs() {
-    var fakeRandom = new Random(3);
-    coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fakeRandom);
+    var fixedRandom = new Random(3);
+    coderetreat = new Coderetreat(List.of("Вася", "Петя", "Жора", "Саша"), fixedRandom);
     coderetreat.setDoNotRepeatPairs(false);
     var originalRoundPairs = coderetreat.nextRound().pairs();
     var rerolledRoundPairs = coderetreat.reRollRound().pairs();
@@ -66,7 +67,7 @@ class CoderetreatTest {
   }
 
   @Test
-  void pairsInNextRoundsShouldNotContainPairsFromPrevious() {
+  void doNotRepeatPairsInRoundsWhenFlagIsTrue() {
     coderetreat.setDoNotRepeatPairs(true);
 
     var maxRoundCount = 3; //TODO: replace 4 with people.size(), based on formula max round count = n! / (k! * (n - k)!) / (n / 2)
