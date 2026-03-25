@@ -2,7 +2,6 @@ package pairtime.pairs;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ class RoundTest {
       int expectedNumber = 5;
       var round = new Round(expectedNumber, Set.of(new Pair("A", "B")));
 
-      assertEquals(expectedNumber, round.number());
+      assertThat(round.number()).isEqualTo(expectedNumber);
     }
 
     @Test
