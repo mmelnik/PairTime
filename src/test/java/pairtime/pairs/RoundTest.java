@@ -85,6 +85,43 @@ class RoundTest {
   }
 
   @Nested
+  @DisplayName("Round behavior tests")
+  class RoundBehaviorTests {
+
+    @Test
+    void roundsWithSameNumberAndDifferentPairsShouldBeDifferent() {
+      var sameNumber = 1;
+
+      var round1 = new Round(sameNumber, Set.of(new Pair("A", "B")));
+      var round2 = new Round(sameNumber, Set.of(new Pair("C", "D")));
+
+      assertThat(round1).isNotEqualTo(round2);
+    }
+
+    @Test
+    void roundsWithDifferentNumbersAndSamePairsShouldBeDifferent() {
+      var samePairs = Set.of(new Pair("A", "B"));
+
+      var round1 = new Round(1, samePairs);
+      var round2 = new Round(2, samePairs);
+
+      assertThat(round1).isNotEqualTo(round2);
+    }
+
+    @Test
+    void roundsWithSameNumberAndSamePairsShouldBeEqual() {
+      var sameNumber = 1;
+      var samePairs = Set.of(new Pair("A", "B"));
+
+      var round1 = new Round(sameNumber, samePairs);
+      var round2 = new Round(sameNumber, new HashSet<>(samePairs));
+
+      assertThat(round1).isEqualTo(round2);
+      assertThat(round1.hashCode()).hasSameHashCodeAs(round2.hashCode());
+    }
+  }
+
+  @Nested
   @DisplayName("toString() method tests")
   class ToStringTests {
 
