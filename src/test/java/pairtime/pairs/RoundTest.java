@@ -165,4 +165,28 @@ class RoundTest {
     }
   }
 
+  @Nested
+  @DisplayName("Pairs integrity tests")
+  class PairsIntegrityTests {
+
+    @Test
+    void pairsSetReturnedByGetterShouldBeUnmodifiable() {
+      var round = new Round(1, Set.of(new Pair("A", "B")));
+
+      var actual = round.pairs();
+
+      var pair = new Pair("C", "D");
+      assertThrows(UnsupportedOperationException.class, () -> actual.add(pair));
+    }
+
+    @Test
+    void multipleCallsToGetterShouldReturnConsistentViews() {
+      var round = new Round(1, Set.of(new Pair("A", "B")));
+
+      var pairs1 = round.pairs();
+      var pairs2 = round.pairs();
+
+      assertThat(pairs1).isSameAs(pairs2);
+    }
+  }
 }

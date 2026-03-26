@@ -1,6 +1,5 @@
 package pairtime.pairs;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public record Round(int number, Set<Pair> pairs) {
@@ -10,7 +9,7 @@ public record Round(int number, Set<Pair> pairs) {
     if (pairs == null || pairs.isEmpty()) throw new IllegalArgumentException("Pairs cannot be empty");
 
     this.number = number;
-    this.pairs = new HashSet<>(pairs);
+    this.pairs = Set.copyOf(pairs);
   }
 
   @Override
