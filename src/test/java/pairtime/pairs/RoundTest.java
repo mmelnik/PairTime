@@ -212,6 +212,41 @@ class RoundTest {
           () -> assertThat(result).contains("Pair: O'Connor, Smith-Johnson")
       );
     }
+
+    @Test
+    void roundToStringWithUnicodeCharacters() {
+      var pairs = Set.of(
+          new Pair("🐱", "🐶"),
+          new Pair("😊", "🎉")
+      );
+
+      var actual = new Round(1, pairs).toString();
+
+      assertThat(actual).contains("🐱", "🐶", "😊", "🎉");
+    }
+
+    @Test
+    void toStringShouldNotModifyRoundState() {
+      var round = new Round(1, Set.of(new Pair("A", "B")));
+      var originalToString = round.toString();
+
+      round.toString(); // Call again
+
+      assertThat(round).hasToString(originalToString);
+    }
+
+    @Test
+    void toStringShouldNumberPairsSequentially() {
+      var pairs = Set.of(
+          new Pair("1", "2"),
+          new Pair("3", "4"),
+          new Pair("5", "6")
+      );
+
+      var actual = new Round(1, pairs).toString();
+
+      assertThat(actual).contains("#1 ", "#2 ", "#3 ");
+    }
   }
 
   @Nested
