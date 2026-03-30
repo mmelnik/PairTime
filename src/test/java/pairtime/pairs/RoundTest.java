@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -135,7 +136,7 @@ class RoundTest {
     }
 
     @Test
-    void roundsWithSameNumberAndSamePairsShouldBeEqual() {
+    void roundsWithSameNumberAndEqualPairsShouldBeEqual() {
       var sameNumber = 1;
       var samePairs = Set.of(new Pair("A", "B"));
 
@@ -144,6 +145,28 @@ class RoundTest {
 
       assertThat(round1).isEqualTo(round2);
       assertThat(round1.hashCode()).hasSameHashCodeAs(round2.hashCode());
+    }
+
+    @Test
+    void recordHashCodeShouldBeConsistent() {
+      var actual = new Round(1, Set.of(new Pair("A", "B")));
+
+      assertThat(actual).hasSameHashCodeAs(actual);
+    }
+
+    @Test
+    void recordShouldBeUsableAsMapKey() {
+      var round1 = new Round(1, Set.of(new Pair("A", "B")));
+      var round2 = new Round(1, Set.of(new Pair("A", "B")));
+      var round3 = new Round(2, Set.of(new Pair("A", "B")));
+
+      var actual = new HashMap<>();
+      actual.put(round1, "First");
+
+      assertAll(
+          () -> assertThat(actual).containsEntry(round2, "First"),
+          () -> assertThat(actual).doesNotContainKey(round3)
+      );
     }
   }
 
