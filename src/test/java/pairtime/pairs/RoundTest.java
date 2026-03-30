@@ -46,6 +46,13 @@ class RoundTest {
     }
 
     @Test
+    void roundWithVeryLargeNumberShouldWork() {
+      var actual = new Round(Integer.MAX_VALUE, Set.of(new Pair("A", "B"))).number();
+
+      assertThat(actual).isEqualTo(Integer.MAX_VALUE);
+    }
+
+    @Test
     void pairsListShouldBeStoredCorrectly() {
       var expectedPairs = new HashSet<>(Set.of(
           new Pair("Alice", "Bob"),
@@ -68,6 +75,25 @@ class RoundTest {
     void roundCannotHaveEmptyPairs() {
       var pairs = Set.<Pair>of();
       assertThrows(IllegalArgumentException.class, () -> new Round(2, pairs));
+    }
+
+    @Test
+    void roundWithLotOfPairsShouldWork() {
+      var manyPairs = new HashSet<Pair>();
+      for (int number = 0; number < 1000; number++) {
+        manyPairs.add(new Pair("Driver" + number, "Navigator" + number));
+      }
+
+      assertDoesNotThrow(() -> new Round(1, manyPairs));
+    }
+
+    @Test
+    void roundWithNullInPairsSetShouldThrow() {
+      var pairsWithNull = new HashSet<Pair>();
+      pairsWithNull.add(new Pair("A", "B"));
+      pairsWithNull.add(null);
+
+      assertThrows(NullPointerException.class, () -> new Round(1, pairsWithNull));
     }
 
     @Test
