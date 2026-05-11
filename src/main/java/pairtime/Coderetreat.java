@@ -65,6 +65,10 @@ public class Coderetreat {
     return rounds.isEmpty() ? emptySet() : rounds.getLast().pairs();
   }
 
+  public int getPeopleCount() {
+    return people.size();
+  }
+
   public String printCurrentRound() {
     return rounds.isEmpty() ? "" : rounds.getLast().toString();
   }

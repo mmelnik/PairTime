@@ -70,7 +70,7 @@ class CoderetreatTest {
   void doNotRepeatPairsInRoundsWhenFlagIsTrue() {
     coderetreat.setDoNotRepeatPairs(true);
 
-    var maxRoundCount = 3; //TODO: replace 4 with people.size(), based on formula max round count = n! / (k! * (n - k)!) / (n / 2)
+    var maxRoundCount = coderetreat.getPeopleCount() - 1; // max round count = n! / (k! * (n - k)!) / (n / 2)
 
     var previousRoundsPairs = new HashSet<Pair>();
     for (int roundNumber = 0; roundNumber < maxRoundCount; roundNumber++) {

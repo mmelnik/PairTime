@@ -82,6 +82,10 @@ public class People {
     value = shuffled;
   }
 
+  public int size() {
+    return value.size();
+  }
+
   public List<String> getValue() {
     return new ArrayList<>(value);
   }
